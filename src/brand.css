@@ -1,0 +1,99 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Chronic Trading — shared brand tokens + suite bar
+   Duplicated across trading-lab, ict-replay, ict-glossary. Keep in sync.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Surfaces */
+  --ct-bg:        #05050a;
+  --ct-bg-deep:   #04040a;
+  --ct-surface:   #0b0b14;
+  --ct-border:    rgba(30, 41, 59, 0.8);
+
+  /* Lead accent */
+  --ct-amber:     #f59e0b;
+
+  /* Category / semantic palette */
+  --ct-green:     #34d399;
+  --ct-red:       #f87171;
+  --ct-blue:      #60a5fa;
+  --ct-violet:    #c084fc;
+  --ct-orange:    #fb923c;
+  --ct-pink:      #f472b6;
+  --ct-teal:      #14b8a6;
+
+  /* Text */
+  --ct-text:       #e2e8f0;
+  --ct-text-dim:   rgba(148, 163, 184, 0.85);
+  --ct-text-faint: rgba(100, 116, 139, 0.6);
+
+  /* Type */
+  --ct-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ct-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+/* ── Suite bar: slim cross-site strip above each app ───────────────────────── */
+.suite-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px;
+  height: 30px;
+  background: #030308;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.12);
+  position: relative;
+  z-index: 60;
+}
+
+.suite-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--ct-font);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  color: var(--ct-amber);
+  text-decoration: none;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+.suite-wordmark:hover { opacity: 1; }
+.suite-wordmark .suite-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ct-amber);
+  box-shadow: 0 0 6px var(--ct-amber);
+  flex-shrink: 0;
+}
+
+.suite-links { display: flex; gap: 4px; }
+
+.suite-link {
+  font-family: var(--ct-font);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 6px;
+  color: var(--ct-text-faint);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.suite-link:hover { color: var(--ct-text); background: rgba(255, 255, 255, 0.04); }
+.suite-link.active {
+  color: var(--ct-amber);
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+@media (max-width: 480px) {
+  .suite-bar { padding: 0 10px; }
+  .suite-link { padding: 3px 6px; letter-spacing: 0.08em; }
+  .suite-wordmark { letter-spacing: 0.14em; }
+}

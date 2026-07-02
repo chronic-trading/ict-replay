@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react'
 import { scenarios, type Scenario, type Category, type Difficulty } from './data/scenarios'
 import { ConceptDiagram } from './components/ConceptDiagram'
+import { SuiteBar } from './components/SuiteBar'
 import { useProgress } from './hooks/useProgress'
 import './index.css'
+import './brand.css'
 
 const CAT: Record<Category,{label:string;color:string;bg:string;border:string}> = {
   'fvg':              {label:'Fair Value Gap',  color:'#f59e0b',bg:'rgba(245,158,11,0.1)', border:'rgba(245,158,11,0.3)' },
@@ -22,8 +24,14 @@ export default function App() {
   const progress = useProgress()
   const [active, setActive] = useState<Scenario|null>(null)
   const handleComplete = (s: number) => { if (active) progress.saveResult(active.id, s) }
-  if (active) return <Player scenario={active} onBack={() => setActive(null)} onComplete={handleComplete} />
-  return <Home onStart={setActive} progress={progress} />
+  return (
+    <>
+      <SuiteBar current="replay" />
+      {active
+        ? <Player scenario={active} onBack={() => setActive(null)} onComplete={handleComplete} />
+        : <Home onStart={setActive} progress={progress} />}
+    </>
+  )
 }
 
 // ── Home ──────────────────────────────────────────────────────────────────────
