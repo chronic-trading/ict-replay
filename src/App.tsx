@@ -1,7 +1,8 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { scenarios, type Scenario, type Category, type Difficulty } from './data/scenarios'
 import { ConceptDiagram } from './components/ConceptDiagram'
 import { SuiteBar } from './components/SuiteBar'
+import { TradeMode, type ChartFile, type TradeOutcomeInfo } from './components/TradeMode'
 import { useProgress } from './hooks/useProgress'
 import './index.css'
 import './brand.css'
@@ -24,11 +25,15 @@ export default function App() {
   const progress = useProgress()
   const [active, setActive] = useState<Scenario|null>(null)
   const handleComplete = (s: number) => { if (active) progress.saveResult(active.id, s) }
+  const handleTrade = (t: TradeOutcomeInfo) => {
+    if (!active || t.outcome === 'nofill') return
+    progress.saveTrade({ scenarioId: active.id, direction: t.direction, outcome: t.outcome, r: t.r })
+  }
   return (
     <>
       <SuiteBar current="replay" />
       {active
-        ? <Player scenario={active} onBack={() => setActive(null)} onComplete={handleComplete} />
+        ? <Player scenario={active} onBack={() => setActive(null)} onComplete={handleComplete} onTrade={handleTrade} />
         : <Home onStart={setActive} progress={progress} />}
     </>
   )
@@ -78,6 +83,7 @@ function Home({ onStart, progress }: { onStart:(s:Scenario)=>void; progress:Retu
                   { l:'Done',    v:`${progress.completed}/${scenarios.length}`, c:'#f59e0b' },
                   { l:'Avg',     v: progress.avgScore === '—' ? '—' : `${progress.avgScore}/4`,  c: progress.avgScore === '—' ? '#475569' : parseFloat(progress.avgScore) >= 3 ? '#34d399' : parseFloat(progress.avgScore) >= 2 ? '#f59e0b' : '#f87171' },
                   { l:'Perfect', v:`${progress.perfect}`,                       c:'#f59e0b' },
+                  { l:'Net R',   v: progress.tradedCount === 0 ? '—' : `${progress.netR >= 0 ? '+' : ''}${progress.netR}R`, c: progress.tradedCount === 0 ? '#475569' : progress.netR >= 0 ? '#34d399' : '#f87171' },
                 ].map(s => (
                   <div key={s.l} className="text-center">
                     <p className="font-black text-white m-0" style={{ fontFamily:'monospace', fontSize:22, color:s.c, textShadow:`0 0 16px ${s.c}50` }}>{s.v}</p>
@@ -142,6 +148,7 @@ function Home({ onStart, progress }: { onStart:(s:Scenario)=>void; progress:Retu
           {shown.map(s => {
             const m = CAT[s.category]
             const res = progress.getResult(s.id)
+            const trade = progress.getTrade(s.id)
             const done = !!res, perfect = res?.score === 4
             return (
               <button key={s.id} onClick={() => onStart(s)}
@@ -157,6 +164,11 @@ function Home({ onStart, progress }: { onStart:(s:Scenario)=>void; progress:Retu
                   <div className="flex items-center justify-between mb-3">
                     <span style={{ fontSize:9, fontWeight:900, letterSpacing:'0.1em', textTransform:'uppercase', padding:'3px 9px', borderRadius:999, color:m.color, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
                     <div className="flex items-center gap-2">
+                      {trade && (
+                        <span style={{ fontSize:10, fontWeight:900, fontFamily:'monospace', color: trade.r >= 0 ? '#34d399' : '#f87171' }}>
+                          {trade.r >= 0 ? '+' : ''}{trade.r}R
+                        </span>
+                      )}
                       <span style={{ fontSize:9, fontWeight:700, textTransform:'capitalize', color:DIFF[s.difficulty] }}>{s.difficulty}</span>
                       {done && (
                         <span style={{ fontSize:11, fontWeight:900, color:perfect?'#f59e0b':'#475569', textShadow:perfect?'0 0 12px rgba(245,158,11,0.5)':'none' }}>
@@ -189,12 +201,29 @@ function Home({ onStart, progress }: { onStart:(s:Scenario)=>void; progress:Retu
 }
 
 // ── Player ────────────────────────────────────────────────────────────────────
-function Player({ scenario, onBack, onComplete }: { scenario:Scenario; onBack:()=>void; onComplete:(s:number)=>void }) {
+function Player({ scenario, onBack, onComplete, onTrade }: {
+  scenario:Scenario; onBack:()=>void; onComplete:(s:number)=>void; onTrade:(t:TradeOutcomeInfo)=>void
+}) {
   const [answers,   setAnswers]   = useState<Record<string,number>>({})
   const [submitted, setSubmitted] = useState(false)
   const [score,     setScore]     = useState(0)
+  const [trading,   setTrading]   = useState(false)
+  const [chartData, setChartData] = useState<ChartFile | null>(null)
   const resultRef = useRef<HTMLDivElement>(null)
   const m = CAT[scenario.category]
+
+  useEffect(() => {
+    let alive = true
+    setChartData(null); setTrading(false)
+    fetch(`${import.meta.env.BASE_URL}chart-data/${scenario.id}.json`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => {
+        if (!alive) return
+        if (d && Array.isArray(d.bars) && d.decisionIndex > 0 && d.bars.length > d.decisionIndex) setChartData(d)
+      })
+      .catch(() => {})
+    return () => { alive = false }
+  }, [scenario.id])
 
   const handleSubmit = () => {
     let s = 0
@@ -218,7 +247,20 @@ function Player({ scenario, onBack, onComplete }: { scenario:Scenario; onBack:()
         <span style={{ marginLeft:'auto', fontSize:9, fontWeight:900, textTransform:'uppercase', letterSpacing:'0.1em', padding:'3px 10px', borderRadius:999, color:m.color, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-4 space-y-3">
+      {/* Trade mode */}
+      {trading && chartData && (
+        <div className="max-w-4xl mx-auto px-4 py-4 space-y-3">
+          <div>
+            <h1 style={{ fontSize:20, fontWeight:900, color:'white', margin:0, lineHeight:1.2 }}>{scenario.title}</h1>
+            <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', color:'#f59e0b' }}>
+              Trade mode — set your levels, then play the tape
+            </span>
+          </div>
+          <TradeMode scenario={scenario} chart={chartData} onExit={() => setTrading(false)} onComplete={onTrade} />
+        </div>
+      )}
+
+      <div className="max-w-4xl mx-auto px-4 py-4 space-y-3" style={{ display: trading ? 'none' : undefined }}>
         {/* Title */}
         <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:12 }}>
           <div>
@@ -251,11 +293,20 @@ function Player({ scenario, onBack, onComplete }: { scenario:Scenario; onBack:()
           />
         </div>
 
-        <a href={`https://www.tradingview.com/chart/?symbol=${scenario.tvSymbol}&interval=${scenario.tvInterval}`}
-           target="_blank" rel="noopener noreferrer"
-           className="text-[11px] font-semibold text-blue-400 hover:text-blue-300 transition-colors">
-          Verify on TradingView →
-        </a>
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <a href={`https://www.tradingview.com/chart/?symbol=${scenario.tvSymbol}&interval=${scenario.tvInterval}`}
+             target="_blank" rel="noopener noreferrer"
+             className="text-[11px] font-semibold text-blue-400 hover:text-blue-300 transition-colors">
+            Verify on TradingView →
+          </a>
+          {chartData && (
+            <button onClick={() => setTrading(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-[11px] font-black tracking-wide transition-all border cursor-pointer"
+              style={{ background:'rgba(245,158,11,0.1)', borderColor:'rgba(245,158,11,0.35)', color:'#f59e0b' }}>
+              ⚡ Trade this setup — bar-by-bar replay
+            </button>
+          )}
+        </div>
 
         {/* Questions */}
         <div className="space-y-3">
