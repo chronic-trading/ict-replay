@@ -1,13 +1,17 @@
 // Refetch all 30 scenarios using end_date so we get real historical data.
 // Free tier ignores start_date — end_date works and gives data ending at that point.
-// Run: node scripts/fetchChartData.mjs
+// Run: TWELVEDATA_KEY=<your key> node scripts/fetchChartData.mjs
 import { writeFileSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const OUT   = join(__dir, '../public/chart-data')
-const KEY   = '15109472f1454236874033eb5ef3c785'
+const KEY   = process.env.TWELVEDATA_KEY
+if (!KEY) {
+  console.error('Missing TWELVEDATA_KEY environment variable. Get a key at https://twelvedata.com and run:\n  TWELVEDATA_KEY=<your key> node scripts/fetchChartData.mjs')
+  process.exit(1)
+}
 const BASE  = 'https://api.twelvedata.com/time_series'
 
 // end_date = the LAST bar in the window; di = decisionIndex (bars before the reveal)

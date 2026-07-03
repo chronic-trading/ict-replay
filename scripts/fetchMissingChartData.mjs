@@ -1,12 +1,16 @@
 // Backfill chart data for s31–s38 (added after the original 30 were fetched).
-// Same approach as fetchChartData.mjs. Run: node scripts/fetchMissingChartData.mjs
+// Same approach as fetchChartData.mjs. Run: TWELVEDATA_KEY=<your key> node scripts/fetchMissingChartData.mjs
 import { writeFileSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const OUT   = join(__dir, '../public/chart-data')
-const KEY   = '15109472f1454236874033eb5ef3c785'
+const KEY   = process.env.TWELVEDATA_KEY
+if (!KEY) {
+  console.error('Missing TWELVEDATA_KEY environment variable. Get a key at https://twelvedata.com and run:\n  TWELVEDATA_KEY=<your key> node scripts/fetchMissingChartData.mjs')
+  process.exit(1)
+}
 const BASE  = 'https://api.twelvedata.com/time_series'
 
 const SCENARIOS = [
