@@ -3,6 +3,7 @@ import { scenarios, type Scenario, type Category, type Difficulty } from './data
 import { ConceptDiagram } from './components/ConceptDiagram'
 import { SuiteBar } from './components/SuiteBar'
 import { TradeMode, type ChartFile, type TradeOutcomeInfo } from './components/TradeMode'
+import { ExamMode } from './components/ExamMode'
 import { useProgress } from './hooks/useProgress'
 import './index.css'
 import './brand.css'
@@ -24,6 +25,7 @@ const QS = ['q1','q2','q3','q4'] as const
 export default function App() {
   const progress = useProgress()
   const [active, setActive] = useState<Scenario|null>(null)
+  const [examOpen, setExamOpen] = useState(false)
   const handleComplete = (s: number) => { if (active) progress.saveResult(active.id, s) }
   const handleTrade = (t: TradeOutcomeInfo) => {
     if (!active || t.outcome === 'nofill') return
@@ -32,15 +34,16 @@ export default function App() {
   return (
     <>
       <SuiteBar current="replay" />
+      {examOpen && <ExamMode onClose={() => setExamOpen(false)} onFinish={progress.markActivity} />}
       {active
         ? <Player scenario={active} onBack={() => setActive(null)} onComplete={handleComplete} onTrade={handleTrade} />
-        : <Home onStart={setActive} progress={progress} />}
+        : <Home onStart={setActive} progress={progress} onExam={() => setExamOpen(true)} />}
     </>
   )
 }
 
 // ── Home ──────────────────────────────────────────────────────────────────────
-function Home({ onStart, progress }: { onStart:(s:Scenario)=>void; progress:ReturnType<typeof useProgress> }) {
+function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progress:ReturnType<typeof useProgress>; onExam:()=>void }) {
   const [filter, setFilter] = useState<Category|'all'>('all')
   const [diff,   setDiff]   = useState<Difficulty|'all'>('all')
   const cats = [...new Set(scenarios.map(s => s.category))] as Category[]
@@ -84,6 +87,7 @@ function Home({ onStart, progress }: { onStart:(s:Scenario)=>void; progress:Retu
                   { l:'Avg',     v: progress.avgScore === '—' ? '—' : `${progress.avgScore}/4`,  c: progress.avgScore === '—' ? '#475569' : parseFloat(progress.avgScore) >= 3 ? '#34d399' : parseFloat(progress.avgScore) >= 2 ? '#f59e0b' : '#f87171' },
                   { l:'Perfect', v:`${progress.perfect}`,                       c:'#f59e0b' },
                   { l:'Net R',   v: progress.tradedCount === 0 ? '—' : `${progress.netR >= 0 ? '+' : ''}${progress.netR}R`, c: progress.tradedCount === 0 ? '#475569' : progress.netR >= 0 ? '#34d399' : '#f87171' },
+                  { l:'Streak',  v: progress.streak > 0 ? `${progress.streak}d` : '—', c: progress.streak > 0 ? '#fb923c' : '#475569' },
                 ].map(s => (
                   <div key={s.l} className="text-center">
                     <p className="font-black text-white m-0" style={{ fontFamily:'monospace', fontSize:22, color:s.c, textShadow:`0 0 16px ${s.c}50` }}>{s.v}</p>
@@ -139,6 +143,12 @@ function Home({ onStart, progress }: { onStart:(s:Scenario)=>void; progress:Retu
             <span style={{ marginLeft:'auto', fontSize:10, color:'rgba(100,116,139,0.45)', fontWeight:600 }}>
               {shown.length} scenario{shown.length !== 1 ? 's' : ''}
             </span>
+            <button onClick={onExam}
+              style={{ fontSize:10, fontWeight:900, letterSpacing:'0.08em', padding:'5px 14px', borderRadius:9, border:'1px solid rgba(245,158,11,0.35)', background:'rgba(245,158,11,0.1)', color:'#f59e0b', cursor:'pointer', transition:'all 0.15s' }}
+              onMouseEnter={e => (e.currentTarget.style.background='rgba(245,158,11,0.18)')}
+              onMouseLeave={e => (e.currentTarget.style.background='rgba(245,158,11,0.1)')}>
+              🎓 EXAM
+            </button>
           </div>
         </div>
       </header>
