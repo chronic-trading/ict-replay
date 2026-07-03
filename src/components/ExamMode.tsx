@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { scenarios, type Scenario } from '../data/scenarios'
+import { GlossaryText } from './GlossaryText'
 
 const EXAM_SIZE = 10
 const BEST_KEY  = 'ict-replay-exam-best'
@@ -152,7 +153,7 @@ export function ExamMode({ onClose, onFinish }: { onClose: () => void; onFinish:
                       <p className="text-[11px] font-bold text-slate-200 m-0 mb-1.5">{eq.prompt}</p>
                       <p className="text-[10.5px] m-0 mb-1" style={{ color:'#f87171' }}>✗ You: {eq.options[answers[i]] ?? '—'}</p>
                       <p className="text-[10.5px] m-0 mb-1.5" style={{ color:'#34d399' }}>✓ {eq.options[eq.correct]}</p>
-                      <p className="text-[10px] text-slate-500 leading-relaxed m-0">{eq.explanation}</p>
+                      <p className="text-[10px] text-slate-500 leading-relaxed m-0"><GlossaryText text={eq.explanation} /></p>
                     </div>
                   )
                 })}

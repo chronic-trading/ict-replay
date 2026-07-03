@@ -4,6 +4,7 @@ import { ConceptDiagram } from './components/ConceptDiagram'
 import { SuiteBar } from './components/SuiteBar'
 import { TradeMode, type ChartFile, type TradeOutcomeInfo } from './components/TradeMode'
 import { ExamMode } from './components/ExamMode'
+import { GlossaryText } from './components/GlossaryText'
 import { useProgress } from './hooks/useProgress'
 import './index.css'
 import './brand.css'
@@ -357,7 +358,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
                 {submitted && (
                   <div className="rounded-xl px-3 py-2.5 pop-in"
                        style={{ background:right?'rgba(52,211,153,0.06)':'rgba(248,113,113,0.06)', border:`1px solid ${right?'rgba(52,211,153,0.2)':'rgba(248,113,113,0.2)'}` }}>
-                    <p className="text-[11px] leading-relaxed m-0" style={{ color:right?'#86efac':'#fca5a5' }}>{q.explanation}</p>
+                    <p className="text-[11px] leading-relaxed m-0" style={{ color:right?'#86efac':'#fca5a5' }}><GlossaryText text={q.explanation} /></p>
                   </div>
                 )}
               </div>
@@ -385,7 +386,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
             </p>
             <div className="rounded-xl px-4 py-3 text-left" style={{ background:'rgba(0,0,0,0.3)', border:'1px solid rgba(30,41,59,0.8)' }}>
               <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 m-0 mb-1">What actually happened</p>
-              <p className="text-xs text-slate-300 leading-relaxed m-0">{scenario.explanation}</p>
+              <p className="text-xs text-slate-300 leading-relaxed m-0"><GlossaryText text={scenario.explanation} /></p>
               {scenario.rAchieved && (
                 <p className="text-xs font-bold mt-1.5 m-0"
                    style={{ fontFamily:'monospace', color:scenario.result==='worked'?'#34d399':'#f87171' }}>
