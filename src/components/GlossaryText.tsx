@@ -5,6 +5,7 @@
  * Term data comes from src/data/glossaryTerms.ts (generated — see its header).
  */
 import { useMemo, useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { GLOSSARY_TERMS, GLOSSARY_CATEGORY_COLORS, GLOSSARY_URL, type GlossaryTerm } from '../data/glossaryTerms'
 
 // ── Term matcher, built once at module load ──────────────────────────────────
@@ -112,7 +113,8 @@ export function GlossaryText({ text }: { text: string }) {
           </button>
         ),
       )}
-      {pop && (
+      {/* Portaled: GlossaryText usually sits inside a <p>, where a nested <div> is invalid HTML */}
+      {pop && createPortal(
         <div
           ref={popRef}
           style={{
@@ -146,7 +148,8 @@ export function GlossaryText({ text }: { text: string }) {
           >
             Full entry + diagram ↗
           </a>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   )
