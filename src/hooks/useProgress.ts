@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { probeSync, pushNamespace, onAuthChange } from '../lib/crossSync'
 
 export interface ScenarioResult {
   scenarioId: string
@@ -30,6 +31,27 @@ function todayStr(offsetDays = 0): string {
 function parseLocal(s: string): Date {
   const [y, m, d] = s.split('-').map(Number)
   return new Date(y, m - 1, d)
+}
+
+// ── Cross-site merge helpers (union; keep best/latest per scenario) ───────────
+interface ReplaySnapshot { results?: ScenarioResult[]; trades?: TradeRecord[]; days?: string[] }
+
+function mergeResults(a: ScenarioResult[], b: ScenarioResult[]): ScenarioResult[] {
+  const map = new Map<string, ScenarioResult>()
+  for (const r of [...a, ...b]) {
+    const ex = map.get(r.scenarioId)
+    if (!ex || r.score > ex.score || (r.score === ex.score && r.answeredAt > ex.answeredAt))
+      map.set(r.scenarioId, r)
+  }
+  return [...map.values()]
+}
+function mergeTrades(a: TradeRecord[], b: TradeRecord[]): TradeRecord[] {
+  const map = new Map<string, TradeRecord>()
+  for (const t of [...a, ...b]) {
+    const ex = map.get(t.scenarioId)
+    if (!ex || t.tradedAt > ex.tradedAt) map.set(t.scenarioId, t)
+  }
+  return [...map.values()]
 }
 
 function computeStreaks(days: string[]): { current: number; best: number } {
@@ -69,9 +91,36 @@ export function useProgress() {
     catch { return [] }
   })
 
+  const [signedIn, setSignedIn] = useState(false)
+
   useEffect(() => { localStorage.setItem(KEY, JSON.stringify(results)) }, [results])
   useEffect(() => { localStorage.setItem(TKEY, JSON.stringify(trades)) }, [trades])
   useEffect(() => { localStorage.setItem(DKEY, JSON.stringify(days)) }, [days])
+
+  // ── Cross-site sync: piggyback on the Trading Lab / suite Supabase session ──
+  useEffect(() => {
+    let alive = true
+    const sync = () => probeSync().then(({ status, blob }) => {
+      if (!alive) return
+      setSignedIn(status === 'ready')  // only claim "synced" when the round-trip works
+      const remote = blob.replay as ReplaySnapshot | undefined
+      if (status === 'ready' && remote) {
+        if (remote.results) setResults(local => mergeResults(local, remote.results!))
+        if (remote.trades)  setTrades(local => mergeTrades(local, remote.trades!))
+        if (remote.days)    setDays(local => [...new Set([...local, ...remote.days!])])
+      }
+    })
+    sync()
+    const off = onAuthChange(() => { sync() })
+    return () => { alive = false; off() }
+  }, [])
+
+  // Debounced push whenever local progress changes (only while signed in)
+  useEffect(() => {
+    if (!signedIn) return
+    const t = setTimeout(() => { pushNamespace('replay', { results, trades, days }) }, 1200)
+    return () => clearTimeout(t)
+  }, [signedIn, results, trades, days])
 
   const markActivity = () => {
     const d = todayStr()
@@ -122,5 +171,6 @@ export function useProgress() {
     results, saveResult, getResult, totalScore, totalPossible, avgScore, completed, perfect,
     trades, saveTrade, getTrade, tradedCount, netR,
     markActivity, streak: streaks.current, bestStreak: streaks.best,
+    signedIn,
   }
 }

@@ -82,6 +82,12 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
 
             {/* Stats */}
             <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:10 }}>
+              {progress.signedIn && (
+                <div style={{ display:'flex', alignItems:'center', gap:5, fontSize:9, fontWeight:700, letterSpacing:'0.08em', color:'#34d399', background:'rgba(52,211,153,0.08)', border:'1px solid rgba(52,211,153,0.22)', borderRadius:7, padding:'3px 9px' }}>
+                  <span style={{ width:5, height:5, borderRadius:'50%', background:'#34d399', boxShadow:'0 0 6px #34d399' }}/>
+                  Progress synced across your Chronic Trading account
+                </div>
+              )}
               <div className="flex gap-6">
                 {[
                   { l:'Done',    v:`${progress.completed}/${scenarios.length}`, c:'#f59e0b' },
