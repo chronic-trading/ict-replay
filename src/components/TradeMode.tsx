@@ -23,10 +23,12 @@ export interface TradeOutcomeInfo {
 type Phase = 'setup' | 'playing' | 'paused' | 'done'
 type Level = 'entry' | 'sl' | 'tp'
 
-const LEVEL_META: Record<Level, { label: string; color: string }> = {
-  entry: { label: 'Entry',  color: '#f59e0b' },
-  sl:    { label: 'Stop',   color: '#f87171' },
-  tp:    { label: 'Target', color: '#34d399' },
+// `color` is the real hex the chart library draws price lines with; `ink` is the
+// theme-aware, contrast-safe version used for UI text/borders on the panel.
+const LEVEL_META: Record<Level, { label: string; color: string; ink: string }> = {
+  entry: { label: 'Entry',  color: '#f59e0b', ink: 'var(--rp-amber)' },
+  sl:    { label: 'Stop',   color: '#f87171', ink: 'var(--rp-red)' },
+  tp:    { label: 'Target', color: '#34d399', ink: 'var(--rp-green)' },
 }
 
 const SPEEDS = [
@@ -282,19 +284,19 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
       </div>
 
       {/* Setup / controls */}
-      <div className="rounded-2xl border border-slate-800/50 p-4 space-y-3" style={{ background: '#0b0b14' }}>
+      <div className="rounded-2xl border p-4 space-y-3" style={{ background: 'var(--rp-surface)', borderColor: 'var(--rp-border)' }}>
         {/* Direction + levels */}
         <div className="flex flex-wrap items-end gap-3">
           <div>
-            <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-1.5">Direction</p>
+            <p className="text-[9px] font-black uppercase tracking-widest mb-1.5" style={{ color: 'var(--rp-text-faint)' }}>Direction</p>
             <div className="flex gap-1.5">
               {(['long', 'short'] as const).map(d => (
                 <button key={d} onClick={() => inSetup && switchDirection(d)} disabled={!inSetup}
                   className="px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all border"
                   style={{
                     background: direction === d ? (d === 'long' ? 'rgba(52,211,153,0.12)' : 'rgba(248,113,113,0.12)') : 'transparent',
-                    borderColor: direction === d ? (d === 'long' ? 'rgba(52,211,153,0.4)' : 'rgba(248,113,113,0.4)') : 'rgba(30,41,59,0.8)',
-                    color: direction === d ? (d === 'long' ? '#34d399' : '#f87171') : '#475569',
+                    borderColor: direction === d ? (d === 'long' ? 'rgba(52,211,153,0.4)' : 'rgba(248,113,113,0.4)') : 'var(--rp-border)',
+                    color: direction === d ? (d === 'long' ? 'var(--rp-green)' : 'var(--rp-red)') : 'var(--rp-text-faint)',
                     cursor: inSetup ? 'pointer' : 'default',
                   }}>
                   {d}
@@ -307,7 +309,7 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
             <div key={lvl}>
               <button onClick={() => inSetup && setArmed(armed === lvl ? null : lvl)} disabled={!inSetup}
                 className="text-[9px] font-black uppercase tracking-widest mb-1.5 block transition-all"
-                style={{ color: armed === lvl && inSetup ? LEVEL_META[lvl].color : '#475569', cursor: inSetup ? 'pointer' : 'default' }}>
+                style={{ color: armed === lvl && inSetup ? LEVEL_META[lvl].ink : 'var(--rp-text-faint)', cursor: inSetup ? 'pointer' : 'default' }}>
                 {LEVEL_META[lvl].label} {armed === lvl && inSetup ? '◉' : ''}
               </button>
               <input
@@ -316,30 +318,31 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
                 disabled={!inSetup}
                 onFocus={() => inSetup && setArmed(lvl)}
                 onChange={e => setLevels(p => ({ ...p, [lvl]: parseFloat(e.target.value) }))}
-                className="w-28 px-3 py-2 rounded-xl text-[12px] font-semibold bg-black/40 border outline-none transition-all"
+                className="w-28 px-3 py-2 rounded-xl text-[12px] font-semibold border outline-none transition-all"
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  borderColor: armed === lvl && inSetup ? LEVEL_META[lvl].color + '80' : 'rgba(30,41,59,0.8)',
-                  color: LEVEL_META[lvl].color,
+                  background: 'var(--rp-surface-2)',
+                  borderColor: armed === lvl && inSetup ? LEVEL_META[lvl].color + '80' : 'var(--rp-border)',
+                  color: LEVEL_META[lvl].ink,
                 }}
               />
             </div>
           ))}
 
           <div className="ml-auto text-right">
-            <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-1.5">Planned</p>
-            <p className="text-[16px] font-black" style={{ fontFamily: "'JetBrains Mono', monospace", color: riskR ? '#e2e8f0' : '#475569' }}>
+            <p className="text-[9px] font-black uppercase tracking-widest mb-1.5" style={{ color: 'var(--rp-text-faint)' }}>Planned</p>
+            <p className="text-[16px] font-black" style={{ fontFamily: "'JetBrains Mono', monospace", color: riskR ? 'var(--rp-text)' : 'var(--rp-text-faint)' }}>
               {riskR ? `${riskR.toFixed(1)}R` : '—'}
             </p>
           </div>
         </div>
 
         {validation && inSetup && (
-          <p className="text-[11px] font-semibold text-amber-400/80">⚠ {validation}</p>
+          <p className="text-[11px] font-semibold" style={{ color: 'var(--rp-amber)' }}>⚠ {validation}</p>
         )}
 
         {/* Transport */}
-        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-800/50">
+        <div className="flex flex-wrap items-center gap-2 pt-1 border-t" style={{ borderColor: 'var(--rp-border)' }}>
           {inSetup && (
             <button onClick={start} disabled={!!validation}
               className="px-5 py-2.5 rounded-xl text-[12px] font-black tracking-wide transition-all border-0"
@@ -352,37 +355,37 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
             </button>
           )}
           {phase === 'playing' && (
-            <button onClick={pause} className="px-5 py-2.5 rounded-xl text-[12px] font-bold border border-slate-700 text-slate-300 cursor-pointer" style={{ background: 'transparent' }}>
+            <button onClick={pause} className="px-5 py-2.5 rounded-xl text-[12px] font-bold border cursor-pointer" style={{ background: 'transparent', borderColor: 'var(--rp-border)', color: 'var(--rp-text-dim)' }}>
               ⏸ Pause
             </button>
           )}
           {phase === 'paused' && (
-            <button onClick={resume} className="px-5 py-2.5 rounded-xl text-[12px] font-bold border border-amber-500/40 text-amber-400 cursor-pointer" style={{ background: 'rgba(245,158,11,0.08)' }}>
+            <button onClick={resume} className="px-5 py-2.5 rounded-xl text-[12px] font-bold border cursor-pointer" style={{ background: 'rgba(245,158,11,0.1)', borderColor: 'rgba(245,158,11,0.4)', color: 'var(--rp-amber)' }}>
               ▶ Resume
             </button>
           )}
           {(phase === 'done' || phase === 'paused') && (
-            <button onClick={reset} className="px-4 py-2.5 rounded-xl text-[12px] font-bold border border-slate-700 text-slate-400 cursor-pointer" style={{ background: 'transparent' }}>
+            <button onClick={reset} className="px-4 py-2.5 rounded-xl text-[12px] font-bold border cursor-pointer" style={{ background: 'transparent', borderColor: 'var(--rp-border)', color: 'var(--rp-text-dim)' }}>
               ↺ Try again
             </button>
           )}
 
           <div className="flex items-center gap-1 ml-auto">
-            <span className="text-[9px] font-black uppercase tracking-widest text-slate-600 mr-1">Speed</span>
+            <span className="text-[9px] font-black uppercase tracking-widest mr-1" style={{ color: 'var(--rp-text-faint)' }}>Speed</span>
             {SPEEDS.map((s, i) => (
               <button key={s.label} onClick={() => changeSpeed(i)}
                 className="px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-all border cursor-pointer"
                 style={{
                   background: speedIdx === i ? 'rgba(245,158,11,0.12)' : 'transparent',
-                  borderColor: speedIdx === i ? 'rgba(245,158,11,0.35)' : 'rgba(30,41,59,0.8)',
-                  color: speedIdx === i ? '#f59e0b' : '#64748b',
+                  borderColor: speedIdx === i ? 'rgba(245,158,11,0.35)' : 'var(--rp-border)',
+                  color: speedIdx === i ? 'var(--rp-amber)' : 'var(--rp-text-faint)',
                 }}>
                 {s.label}
               </button>
             ))}
           </div>
 
-          <button onClick={onExit} className="px-4 py-2.5 rounded-xl text-[12px] font-bold border border-slate-800 text-slate-500 hover:text-slate-300 transition-all cursor-pointer" style={{ background: 'transparent' }}>
+          <button onClick={onExit} className="px-4 py-2.5 rounded-xl text-[12px] font-bold border transition-all cursor-pointer" style={{ background: 'transparent', borderColor: 'var(--rp-border)', color: 'var(--rp-text-dim)' }}>
             ← Back
           </button>
         </div>
@@ -392,22 +395,22 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
       {result && (
         <div className="rounded-2xl border p-5 text-center space-y-3 pop-in"
              style={{
-               background: result.outcome === 'target' ? 'rgba(52,211,153,0.05)' : result.outcome === 'stopped' ? 'rgba(248,113,113,0.05)' : 'rgba(100,116,139,0.05)',
-               borderColor: result.outcome === 'target' ? 'rgba(52,211,153,0.3)' : result.outcome === 'stopped' ? 'rgba(248,113,113,0.3)' : 'rgba(100,116,139,0.25)',
+               background: result.outcome === 'target' ? 'rgba(52,211,153,0.06)' : result.outcome === 'stopped' ? 'rgba(248,113,113,0.06)' : 'var(--rp-surface)',
+               borderColor: result.outcome === 'target' ? 'rgba(52,211,153,0.3)' : result.outcome === 'stopped' ? 'rgba(248,113,113,0.3)' : 'var(--rp-border)',
              }}>
           <p className="text-5xl font-black leading-none m-0"
-             style={{ fontFamily: "'JetBrains Mono', monospace", color: result.outcome === 'target' ? '#34d399' : result.outcome === 'stopped' ? '#f87171' : '#94a3b8' }}>
+             style={{ fontFamily: "'JetBrains Mono', monospace", color: result.outcome === 'target' ? 'var(--rp-green)' : result.outcome === 'stopped' ? 'var(--rp-red)' : 'var(--rp-text-dim)' }}>
             {result.outcome === 'nofill' ? 'NO FILL' : `${result.r >= 0 ? '+' : ''}${result.r}R`}
           </p>
-          <p className="text-sm font-bold m-0" style={{ color: result.outcome === 'target' ? '#6ee7b7' : result.outcome === 'stopped' ? '#fca5a5' : '#94a3b8' }}>
+          <p className="text-sm font-bold m-0" style={{ color: result.outcome === 'target' ? 'var(--rp-green)' : result.outcome === 'stopped' ? 'var(--rp-red)' : 'var(--rp-text-dim)' }}>
             {result.outcome === 'target'  && '🎯 Target hit — clean execution'}
             {result.outcome === 'stopped' && 'Stopped out — review your level placement'}
             {result.outcome === 'expired' && 'Marked to market at the end of the data'}
             {result.outcome === 'nofill'  && 'Your limit order was never touched — entry too far from price'}
           </p>
           {scenario.rAchieved != null && result.outcome !== 'nofill' && (
-            <p className="text-[11px] text-slate-500 m-0">
-              The scenario's documented outcome was <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: scenario.result === 'worked' ? '#34d399' : '#f87171' }}>
+            <p className="text-[11px] m-0" style={{ color: 'var(--rp-text-dim)' }}>
+              The scenario's documented outcome was <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: scenario.result === 'worked' ? 'var(--rp-green)' : 'var(--rp-red)' }}>
                 {scenario.result === 'worked' ? '+' : ''}{scenario.rAchieved}R
               </span> — {scenario.result}.
             </p>

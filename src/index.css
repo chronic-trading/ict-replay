@@ -1,8 +1,50 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Chronic Trading — theme tokens (warm light default, dark opt-in).
+   Dark values are the app's ORIGINAL hardcoded colors, so dark mode is
+   pixel-identical to before. Inline styles reference these via var(--rp-…).
+   Kept in sync with trading-lab / ict-glossary.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --rp-bg:            #f7f4ee;
+  --rp-header:        #fffdf9;
+  --rp-surface:       #ffffff;
+  --rp-surface-2:     #f3eee4;
+  --rp-border:        #ece4d6;
+  --rp-border-strong: #dccfb9;
+  --rp-text:          #2c2720;
+  --rp-text-dim:      #6d6456;
+  --rp-text-faint:    #8c8069;
+  /* Vivid accents darkened so they stay legible on warm paper */
+  --rp-amber:  #b45309;  --rp-green: #15a34a;  --rp-red:    #dc2626;
+  --rp-blue:   #2563eb;  --rp-violet:#7c3aed;  --rp-orange: #ea580c;
+  --rp-pink:   #db2777;  --rp-teal:  #0d9488;  --rp-slate:  #6d6456;
+  --rp-overlay: rgba(247, 244, 238, 0.9);
+  --rp-shadow: 0 12px 36px rgba(74, 58, 28, 0.12);
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  --rp-bg:            #05050a;
+  --rp-header:        #07070e;
+  --rp-surface:       #0b0b14;
+  --rp-surface-2:     #06060e;
+  --rp-border:        rgba(30, 41, 59, 0.8);
+  --rp-border-strong: rgba(30, 41, 59, 0.5);
+  --rp-text:          #ffffff;
+  --rp-text-dim:      #94a3b8;
+  --rp-text-faint:    #64748b;
+  --rp-amber:  #f59e0b;  --rp-green: #34d399;  --rp-red:    #f87171;
+  --rp-blue:   #60a5fa;  --rp-violet:#c084fc;  --rp-orange: #fb923c;
+  --rp-pink:   #f472b6;  --rp-teal:  #14b8a6;  --rp-slate:  #94a3b8;
+  --rp-overlay: rgba(3, 3, 8, 0.9);
+  --rp-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+  color-scheme: dark;
+}
+
 * { box-sizing: border-box; }
-body { margin: 0; background: #05050a; color: #fff; font-family: 'Inter', system-ui, sans-serif; }
+body { margin: 0; background: var(--rp-bg); color: var(--rp-text); font-family: 'Inter', system-ui, sans-serif; transition: background 0.2s ease, color 0.2s ease; }
 
 @keyframes pulse-zone {
   0%,100% { opacity: 0.65; }
