@@ -176,6 +176,39 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-5">
+        {/* Today's Challenge — the same date-seeded scenario for everyone each day */}
+        {(() => {
+          const dayIndex = Math.floor(Date.now() / 86_400_000)
+          const daily = scenarios[dayIndex % scenarios.length]
+          const dm = CAT[daily.category]
+          const dRes = progress.getResult(daily.id)
+          const today = new Date().toLocaleDateString('en-CA')
+          const doneToday = !!dRes && new Date(dRes.answeredAt).toLocaleDateString('en-CA') === today
+          const dateLabel = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })
+          return (
+            <button onClick={() => onStart(daily)}
+              className="w-full text-left rounded-2xl border p-4 mb-4 transition-all cursor-pointer flex items-center gap-4 scenario-card"
+              style={{ background: `linear-gradient(120deg,${dm.color}14,var(--rp-surface) 62%)`, borderColor: doneToday ? 'rgba(52,211,153,0.45)' : dm.border }}>
+              <div style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, background: doneToday ? 'rgba(52,211,153,0.14)' : `${dm.color}1c`, border: `1px solid ${doneToday ? 'rgba(52,211,153,0.4)' : dm.border}` }}>
+                {doneToday ? '✓' : '⚡'}
+              </div>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3, flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: 9, fontWeight: 900, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--rp-amber)' }}>Today's Challenge</span>
+                  <span style={{ fontSize: 9, color: 'var(--rp-text-faint)', fontWeight: 600 }}>{dateLabel}</span>
+                </div>
+                <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--rp-text)', lineHeight: 1.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{daily.title}</p>
+                <p style={{ fontSize: 10.5, color: 'var(--rp-text-faint)', marginTop: 1 }}>{dm.label} · {daily.instrument} · {daily.timeframe} · <span style={{ textTransform: 'capitalize' }}>{daily.difficulty}</span></p>
+              </div>
+              <div style={{ flexShrink: 0, textAlign: 'right' }}>
+                {doneToday
+                  ? <span style={{ fontSize: 12, fontWeight: 900, fontFamily: 'monospace', color: 'var(--rp-green)' }}>{dRes!.score}/4 ✓</span>
+                  : <span style={{ fontSize: 12, fontWeight: 800, color: dm.ink }}>Start →</span>}
+              </div>
+            </button>
+          )
+        })()}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {shown.map(s => {
             const m = CAT[s.category]
