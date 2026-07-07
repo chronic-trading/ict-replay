@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chronic-trading.github.io/ict-replay/sitemap.xml
