@@ -10,9 +10,12 @@ permissions:
   pages: write
   id-token: write
 
+# Never cancel an in-progress Pages deployment — interrupting deploy-pages
+# mid-flight leaves the Pages resource half-created (status:null → "Deployment
+# failed, try again later"). Queue instead, per GitHub's official Pages template.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
