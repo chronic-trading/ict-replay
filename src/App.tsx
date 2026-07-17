@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Target, Zap, Check, X, GraduationCap } from 'lucide-react'
+import { Target, Zap, Check, X, GraduationCap, Moon, Sun } from 'lucide-react'
 import { scenarios, type Scenario, type Category, type Difficulty } from './data/scenarios'
 import { ConceptDiagram } from './components/ConceptDiagram'
 import { SuiteBar } from './components/SuiteBar'
@@ -32,8 +32,8 @@ function ThemeToggle() {
   return (
     <button onClick={toggle} title={theme === 'light' ? 'Switch to dark' : 'Switch to light'} aria-label="Toggle theme"
       style={{ display:'flex', alignItems:'center', justifyContent:'center', width:30, height:30, borderRadius:9, cursor:'pointer',
-        background:'var(--rp-surface-2)', border:'1px solid var(--rp-border)', color:'var(--rp-text-dim)', fontSize:14, transition:'all 0.15s' }}>
-      {theme === 'light' ? '🌙' : '☀️'}
+        background:'var(--rp-surface-2)', border:'1px solid var(--rp-border)', color:'var(--rp-text-dim)', transition:'all 0.15s' }}>
+      {theme === 'light' ? <Moon size={15} strokeWidth={2} /> : <Sun size={15} strokeWidth={2} />}
     </button>
   )
 }
