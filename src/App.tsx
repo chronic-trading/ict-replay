@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Target, Zap, Check, X, GraduationCap, Moon, Sun } from 'lucide-react'
+import { Target, Zap, Check, X, GraduationCap, Moon, Sun, Star } from 'lucide-react'
 import { scenarios, type Scenario, type Category, type Difficulty } from './data/scenarios'
 import { ConceptDiagram } from './components/ConceptDiagram'
 import { SuiteBar } from './components/SuiteBar'
@@ -205,7 +205,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
               </div>
               <div style={{ flexShrink: 0, textAlign: 'right' }}>
                 {doneToday
-                  ? <span style={{ fontSize: 12, fontWeight: 900, fontFamily: 'monospace', color: 'var(--rp-green)' }}>{dRes!.score}/4 ✓</span>
+                  ? <span style={{ fontSize: 12, fontWeight: 900, fontFamily: 'monospace', color: 'var(--rp-green)', display: 'inline-flex', alignItems: 'center', gap: 3 }}>{dRes!.score}/4 <Check size={12} strokeWidth={3} /></span>
                   : <span style={{ fontSize: 12, fontWeight: 800, color: dm.ink }}>Start →</span>}
               </div>
             </button>
@@ -240,8 +240,8 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
                       )}
                       <span style={{ fontSize:9, fontWeight:700, textTransform:'capitalize', color:DIFF[s.difficulty] }}>{s.difficulty}</span>
                       {done && (
-                        <span style={{ fontSize:11, fontWeight:900, color:perfect?'var(--rp-amber)':'var(--rp-text-faint)' }}>
-                          {perfect ? '★' : `${res!.score}/4`}
+                        <span style={{ fontSize:11, fontWeight:900, color:perfect?'var(--rp-amber)':'var(--rp-text-faint)', display:'inline-flex', alignItems:'center' }}>
+                          {perfect ? <Star size={12} strokeWidth={2} fill="currentColor" /> : `${res!.score}/4`}
                         </span>
                       )}
                     </div>
@@ -251,7 +251,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
                     <span style={{ fontFamily:'monospace' }}>{s.instrument}</span>
                     <span>·</span><span>{s.timeframe}</span><span>·</span><span>{s.session}</span>
                     <span style={{ marginLeft:'auto', fontWeight:700, color: perfect?'var(--rp-amber)' : done?'var(--rp-text-faint)' : m.ink }}>
-                      {perfect ? 'Perfect ✓' : done ? 'Retry →' : 'Start →'}
+                      {perfect ? 'Perfect' : done ? 'Retry →' : 'Start →'}
                     </span>
                   </div>
                 </div>
