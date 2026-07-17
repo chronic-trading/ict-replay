@@ -16,15 +16,16 @@
   --rp-border-strong: #dccfb9;
   --rp-text:          #2c2720;
   --rp-text-dim:      #6d6456;
-  --rp-text-faint:    #8c8069;
-  /* Vivid accents darkened so they stay legible on warm paper */
-  --rp-amber:  #b45309;  --rp-green: #15a34a;  --rp-red:    #dc2626;
-  --rp-blue:   #2563eb;  --rp-violet:#7c3aed;  --rp-orange: #ea580c;
-  --rp-pink:   #db2777;  --rp-teal:  #0d9488;  --rp-slate:  #6d6456;
+  --rp-text-faint:    #6f6555;   /* darkened to clear WCAG AA (4.5:1) on warm paper */
+  /* Vivid accents darkened so they stay legible as small text on warm paper */
+  --rp-amber:  #9c4708;  --rp-green: #0f7d38;  --rp-red:    #c41e1e;
+  --rp-blue:   #2563eb;  --rp-violet:#7c3aed;  --rp-orange: #c2410c;
+  --rp-pink:   #be185d;  --rp-teal:  #0d9488;  --rp-slate:  #6d6456;
   --rp-overlay: rgba(247, 244, 238, 0.9);
   --rp-shadow: 0 12px 36px rgba(74, 58, 28, 0.12);
   color-scheme: light;
 }
+
 html[data-theme="dark"] {
   --rp-bg:            #05050a;
   --rp-header:        #07070e;
@@ -34,7 +35,7 @@ html[data-theme="dark"] {
   --rp-border-strong: rgba(30, 41, 59, 0.5);
   --rp-text:          #ffffff;
   --rp-text-dim:      #94a3b8;
-  --rp-text-faint:    #64748b;
+  --rp-text-faint:    #808ea2;   /* lightened to clear WCAG AA (4.5:1) on the dark bg */
   --rp-amber:  #f59e0b;  --rp-green: #34d399;  --rp-red:    #f87171;
   --rp-blue:   #60a5fa;  --rp-violet:#c084fc;  --rp-orange: #fb923c;
   --rp-pink:   #f472b6;  --rp-teal:  #14b8a6;  --rp-slate:  #94a3b8;

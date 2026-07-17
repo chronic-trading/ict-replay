@@ -265,8 +265,8 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
       <div className="rounded-2xl overflow-hidden border border-slate-800/50 relative"
            style={{ background: '#06060e', height: 380 }}>
         <div className="absolute top-3 left-4 z-10 flex items-center gap-2">
-          <span className="text-[10px] font-bold text-slate-500" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{file.symbol}</span>
-          <span className="text-[10px] text-slate-700">{file.interval}</span>
+          <span className="text-[10px] font-bold text-slate-300" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{file.symbol}</span>
+          <span className="text-[10px] text-slate-400">{file.interval}</span>
         </div>
         {inSetup && armed && (
           <div className="absolute bottom-3 left-4 z-10 px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/60">
@@ -276,9 +276,9 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
           </div>
         )}
         {phase === 'playing' && (
-          <div className="absolute bottom-3 right-4 z-10 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <span className="text-[10px] font-bold text-amber-400 tracking-wide">REPLAYING</span>
+          <div className="absolute bottom-3 right-4 z-10 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-500 border border-amber-600">
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background:'#3a2600' }} />
+            <span className="text-[10px] font-bold tracking-wide" style={{ color:'#3a2600' }}>REPLAYING</span>
           </div>
         )}
         <div ref={containerRef} className="w-full h-full" />

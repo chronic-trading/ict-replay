@@ -25,7 +25,7 @@
   /* Text */
   --ct-text:       #e2e8f0;
   --ct-text-dim:   rgba(148, 163, 184, 0.85);
-  --ct-text-faint: rgba(100, 116, 139, 0.6);
+  --ct-text-faint: rgba(148, 163, 184, 0.8);   /* WCAG AA on the dark suite bar */
 
   /* Type */
   --ct-font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;

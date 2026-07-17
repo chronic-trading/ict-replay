@@ -404,7 +404,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
                           color: isCorr?'var(--rp-green)':isWrong?'var(--rp-red)':isSel?'var(--rp-amber)':'var(--rp-text-dim)',
                           cursor: submitted?'default':'pointer',
                         }}>
-                        <span className="opacity-50 mr-2 text-[10px]" style={{fontFamily:'monospace'}}>
+                        <span className="mr-2 text-[10px]" style={{fontFamily:'monospace'}}>
                           {String.fromCharCode(65+oi)}.
                         </span>
                         {opt}{isCorr && <Check size={12} strokeWidth={3} style={{ display:'inline', verticalAlign:'-2px', marginLeft:4 }} />}{isWrong && <X size={12} strokeWidth={3} style={{ display:'inline', verticalAlign:'-2px', marginLeft:4 }} />}

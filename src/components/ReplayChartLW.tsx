@@ -144,9 +144,9 @@ export function ReplayChartLW({ mode, scenarioId }: Props) {
       )}
       {!loading && !error && data && mode === 'before' && (
         <div className="absolute bottom-3 right-4 z-10">
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 animate-pulse">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-            <span className="text-[10px] font-bold text-amber-400 tracking-wide">DECISION POINT</span>
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-500 border border-amber-600 animate-pulse">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background:'#3a2600' }} />
+            <span className="text-[10px] font-bold tracking-wide" style={{ color:'#3a2600' }}>DECISION POINT</span>
           </div>
         </div>
       )}
@@ -159,8 +159,8 @@ export function ReplayChartLW({ mode, scenarioId }: Props) {
       )}
       {!loading && !error && data && (
         <div className="absolute top-3 left-4 z-10 flex items-center gap-2">
-          <span className="text-[10px] font-bold text-slate-500" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{data.symbol}</span>
-          <span className="text-[10px] text-slate-700">{data.interval}</span>
+          <span className="text-[10px] font-bold text-slate-300" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{data.symbol}</span>
+          <span className="text-[10px] text-slate-400">{data.interval}</span>
         </div>
       )}
       <div ref={containerRef} className="w-full h-full" />
