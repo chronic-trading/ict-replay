@@ -71,7 +71,7 @@ function LevelEl({ a, del = 0 }: { a: Extract<Ann,{k:'level'}>; del?: number }) 
     <g style={del ? { animation:`revIn .3s ${del}s both` } : undefined}>
       <line x1={2} y1={y} x2={CR-2} y2={y} stroke={a.col} strokeWidth={.9}
         strokeDasharray={a.dash!==false ? '5 3' : undefined} />
-      <text x={CR+4} y={y+4} fill={a.col} fontSize={9.5} fontFamily="monospace"
+      <text x={CR+4} y={y+4} fill={a.col} fontSize={10} fontFamily="monospace"
         fontWeight={700}>{a.lbl}</text>
     </g>
   )
