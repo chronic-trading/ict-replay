@@ -160,7 +160,7 @@ export function ReplayChartLW({ mode, scenarioId }: Props) {
       {!loading && !error && data && (
         <div className="absolute top-3 left-4 z-10 flex items-center gap-2">
           <span className="text-[10px] font-bold text-slate-500" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{data.symbol}</span>
-          <span className="text-[9px] text-slate-700">{data.interval}</span>
+          <span className="text-[10px] text-slate-700">{data.interval}</span>
         </div>
       )}
       <div ref={containerRef} className="w-full h-full" />

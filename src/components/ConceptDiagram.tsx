@@ -1015,7 +1015,7 @@ export function ConceptDiagram({ mode, scenario }: { mode: 'before'|'after'; sce
         <span className="text-[10px] font-bold text-slate-500" style={{fontFamily:'monospace'}}>
           {scenario.instrument}
         </span>
-        <span className="text-[9px] text-slate-700">{scenario.timeframe}</span>
+        <span className="text-[10px] text-slate-700">{scenario.timeframe}</span>
       </div>
 
       {mode === 'before' && (

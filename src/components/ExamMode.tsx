@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { GraduationCap } from 'lucide-react'
 import { scenarios, type Scenario } from '../data/scenarios'
 import { GlossaryText } from './GlossaryText'
 
@@ -78,7 +79,7 @@ export function ExamMode({ onClose, onFinish }: { onClose: () => void; onFinish:
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2.5">
-            <span style={{ fontSize:11, fontWeight:900, letterSpacing:'0.2em', color:'var(--rp-amber)' }}>🎓 EXAM MODE</span>
+            <span style={{ fontSize:11, fontWeight:900, letterSpacing:'0.2em', color:'var(--rp-amber)', display:'inline-flex', alignItems:'center', gap:6 }}><GraduationCap size={14} strokeWidth={2} /> EXAM MODE</span>
             {!finished && <span style={{ fontSize:10, color:'var(--rp-text-faint)', fontWeight:700 }}>{qi + 1} / {exam.length}</span>}
             {best > 0 && <span style={{ fontSize:10, fontWeight:700, color:'var(--rp-amber)' }}>Best {best}/{EXAM_SIZE}</span>}
           </div>
@@ -136,7 +137,7 @@ export function ExamMode({ onClose, onFinish }: { onClose: () => void; onFinish:
                 {score}/{exam.length}
               </p>
               <p className="text-sm font-bold mt-3" style={{ color: score >= 8 ? 'var(--rp-green)' : score >= 5 ? 'var(--rp-amber)' : 'var(--rp-red)' }}>
-                {score === exam.length ? '🔥 Flawless — funded-trader material' : score >= 8 ? 'Sharp — the concepts are sticking' : score >= 5 ? 'Passing — drill the misses below' : 'Back to the scenarios — repetition builds the read'}
+                {score === exam.length ? 'Flawless — funded-trader material' : score >= 8 ? 'Sharp — the concepts are sticking' : score >= 5 ? 'Passing — drill the misses below' : 'Back to the scenarios — repetition builds the read'}
               </p>
               {score >= best && score > 0 && <p style={{ fontSize:10, fontWeight:900, letterSpacing:'0.15em', color:'var(--rp-amber)', textTransform:'uppercase', marginTop:8 }}>★ New best</p>}
             </div>
@@ -151,8 +152,8 @@ export function ExamMode({ onClose, onFinish }: { onClose: () => void; onFinish:
                   return (
                     <div key={i} className="rounded-xl border p-3.5" style={{ background:'rgba(248,113,113,0.06)', borderColor:'rgba(248,113,113,0.25)' }}>
                       <p className="text-[11px] font-bold m-0 mb-1.5" style={{ color:'var(--rp-text)' }}>{eq.prompt}</p>
-                      <p className="text-[10.5px] m-0 mb-1" style={{ color:'var(--rp-red)' }}>✗ You: {eq.options[answers[i]] ?? '—'}</p>
-                      <p className="text-[10.5px] m-0 mb-1.5" style={{ color:'var(--rp-green)' }}>✓ {eq.options[eq.correct]}</p>
+                      <p className="text-[11px] m-0 mb-1" style={{ color:'var(--rp-red)' }}>✗ You: {eq.options[answers[i]] ?? '—'}</p>
+                      <p className="text-[11px] m-0 mb-1.5" style={{ color:'var(--rp-green)' }}>✓ {eq.options[eq.correct]}</p>
                       <p className="text-[10px] leading-relaxed m-0" style={{ color:'var(--rp-text-dim)' }}><GlossaryText text={eq.explanation} /></p>
                     </div>
                   )

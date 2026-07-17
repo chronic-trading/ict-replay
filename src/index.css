@@ -83,3 +83,30 @@ body { margin: 0; background: var(--rp-bg); color: var(--rp-text); font-family: 
 .scenario-card:nth-child(5)  { animation: card-in 0.3s 0.16s ease both; }
 .scenario-card:nth-child(6)  { animation: card-in 0.3s 0.20s ease both; }
 .scenario-card:nth-child(n+7){ animation: card-in 0.3s 0.24s ease both; }
+
+/* ── Finishing touches — kept in sync with trading-lab / ict-glossary ──────── */
+
+/* Keyboard focus ring — only for keyboard nav, never on mouse click. */
+:focus-visible {
+  outline: 2px solid var(--rp-amber);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* Themed selection + scrollbar */
+::selection { background: color-mix(in srgb, var(--rp-amber) 24%, transparent); color: var(--rp-text); }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--rp-border-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--rp-text-faint); }
+
+/* Respect the OS "reduce motion" setting — stop the card/pulse animations. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

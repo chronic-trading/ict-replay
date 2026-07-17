@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { Target, Zap, Check, X, GraduationCap } from 'lucide-react'
 import { scenarios, type Scenario, type Category, type Difficulty } from './data/scenarios'
 import { ConceptDiagram } from './components/ConceptDiagram'
 import { SuiteBar } from './components/SuiteBar'
@@ -83,14 +84,16 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
           <div className="flex items-start justify-between flex-wrap gap-6 mb-5">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                     style={{ background:'rgba(245,158,11,0.12)', border:'1px solid rgba(245,158,11,0.3)', boxShadow:'0 0 18px rgba(245,158,11,0.1)' }}>🎯</div>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                     style={{ background:'rgba(245,158,11,0.12)', border:'1px solid rgba(245,158,11,0.3)', boxShadow:'0 0 18px rgba(245,158,11,0.1)', color:'var(--rp-amber)' }}>
+                  <Target size={20} strokeWidth={1.75} />
+                </div>
                 <div>
                   <p className="font-black tracking-widest m-0" style={{ fontSize:13, letterSpacing:'0.18em', color:'var(--rp-text)' }}>ICT REPLAY TRAINER</p>
-                  <p className="text-[9px] tracking-widest uppercase m-0" style={{ color:'var(--rp-text-faint)' }}>by Chronic Trading</p>
+                  <p className="text-[10px] tracking-widest uppercase m-0" style={{ color:'var(--rp-text-faint)' }}>by Chronic Trading</p>
                 </div>
               </div>
-              <p className="leading-relaxed m-0" style={{ fontSize:11.5, maxWidth:300, color:'var(--rp-text-dim)' }}>
+              <p className="leading-relaxed m-0" style={{ fontSize: 12, maxWidth:300, color:'var(--rp-text-dim)' }}>
                 Study real ICT setups. Identify the concept, pick direction, name the draw, set your entry.
               </p>
             </div>
@@ -168,8 +171,8 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
               {shown.length} scenario{shown.length !== 1 ? 's' : ''}
             </span>
             <button onClick={onExam}
-              style={{ fontSize:10, fontWeight:900, letterSpacing:'0.08em', padding:'5px 14px', borderRadius:9, border:'1px solid rgba(245,158,11,0.35)', background:'rgba(245,158,11,0.12)', color:'var(--rp-amber)', cursor:'pointer', transition:'all 0.15s' }}>
-              🎓 EXAM
+              style={{ fontSize:10, fontWeight:900, letterSpacing:'0.08em', padding:'5px 14px', borderRadius:9, border:'1px solid rgba(245,158,11,0.35)', background:'rgba(245,158,11,0.12)', color:'var(--rp-amber)', cursor:'pointer', transition:'all 0.15s', display:'inline-flex', alignItems:'center', gap:5 }}>
+              <GraduationCap size={13} strokeWidth={2} /> EXAM
             </button>
           </div>
         </div>
@@ -189,8 +192,8 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
             <button onClick={() => onStart(daily)}
               className="w-full text-left rounded-2xl border p-4 mb-4 transition-all cursor-pointer flex items-center gap-4 scenario-card"
               style={{ background: `linear-gradient(120deg,${dm.color}14,var(--rp-surface) 62%)`, borderColor: doneToday ? 'rgba(52,211,153,0.45)' : dm.border }}>
-              <div style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, background: doneToday ? 'rgba(52,211,153,0.14)' : `${dm.color}1c`, border: `1px solid ${doneToday ? 'rgba(52,211,153,0.4)' : dm.border}` }}>
-                {doneToday ? '✓' : '⚡'}
+              <div style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', color: doneToday ? 'var(--rp-green)' : dm.color, background: doneToday ? 'rgba(52,211,153,0.14)' : `${dm.color}1c`, border: `1px solid ${doneToday ? 'rgba(52,211,153,0.4)' : dm.border}` }}>
+                {doneToday ? <Check size={22} strokeWidth={2.5} /> : <Zap size={20} strokeWidth={2} />}
               </div>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3, flexWrap: 'wrap' }}>
@@ -198,7 +201,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
                   <span style={{ fontSize: 9, color: 'var(--rp-text-faint)', fontWeight: 600 }}>{dateLabel}</span>
                 </div>
                 <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--rp-text)', lineHeight: 1.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{daily.title}</p>
-                <p style={{ fontSize: 10.5, color: 'var(--rp-text-faint)', marginTop: 1 }}>{dm.label} · {daily.instrument} · {daily.timeframe} · <span style={{ textTransform: 'capitalize' }}>{daily.difficulty}</span></p>
+                <p style={{ fontSize: 11, color: 'var(--rp-text-faint)', marginTop: 1 }}>{dm.label} · {daily.instrument} · {daily.timeframe} · <span style={{ textTransform: 'capitalize' }}>{daily.difficulty}</span></p>
               </div>
               <div style={{ flexShrink: 0, textAlign: 'right' }}>
                 {doneToday
@@ -307,7 +310,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
           ← Back
         </button>
         <span style={{ width:1, height:14, background:'var(--rp-border)', display:'inline-block' }} />
-        <span style={{ fontSize:10.5, color:'var(--rp-text-faint)', fontFamily:'monospace' }}>{scenario.instrument} · {scenario.timeframe} · {scenario.session}</span>
+        <span style={{ fontSize: 11, color:'var(--rp-text-faint)', fontFamily:'monospace' }}>{scenario.instrument} · {scenario.timeframe} · {scenario.session}</span>
         <span style={{ marginLeft:'auto', fontSize:9, fontWeight:900, textTransform:'uppercase', letterSpacing:'0.1em', padding:'3px 10px', borderRadius:999, color:m.ink, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
         <ThemeToggle />
       </div>
@@ -345,8 +348,8 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
         {/* Context */}
         <div style={{ borderRadius:16, border:`1px solid ${m.border}`, padding:'12px 14px', background:`linear-gradient(160deg,${m.color}10,var(--rp-surface) 60%)` }}>
           <p style={{ fontSize:9, fontWeight:900, textTransform:'uppercase', letterSpacing:'0.18em', color:m.ink, margin:'0 0 8px' }}>Context</p>
-          <p style={{ fontSize:11.5, color:'var(--rp-text-dim)', lineHeight:1.65, margin:'0 0 6px' }}><span style={{ color:'var(--rp-text)', fontWeight:600 }}>HTF: </span>{scenario.htfContext}</p>
-          <p style={{ fontSize:11.5, color:'var(--rp-text-dim)', lineHeight:1.65, margin:0 }}><span style={{ color:'var(--rp-text)', fontWeight:600 }}>Session: </span>{scenario.sessionContext}</p>
+          <p style={{ fontSize: 12, color:'var(--rp-text-dim)', lineHeight:1.65, margin:'0 0 6px' }}><span style={{ color:'var(--rp-text)', fontWeight:600 }}>HTF: </span>{scenario.htfContext}</p>
+          <p style={{ fontSize: 12, color:'var(--rp-text-dim)', lineHeight:1.65, margin:0 }}><span style={{ color:'var(--rp-text)', fontWeight:600 }}>Session: </span>{scenario.sessionContext}</p>
         </div>
 
         {/* Chart */}
@@ -368,7 +371,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
             <button onClick={() => setTrading(true)}
               className="flex items-center gap-2 px-4 py-2 rounded-xl text-[11px] font-black tracking-wide transition-all border cursor-pointer"
               style={{ background:'rgba(245,158,11,0.12)', borderColor:'rgba(245,158,11,0.35)', color:'var(--rp-amber)' }}>
-              ⚡ Trade this setup — bar-by-bar replay
+              <Zap size={14} strokeWidth={2} /> Trade this setup — bar-by-bar replay
             </button>
           )}
         </div>
@@ -404,7 +407,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
                         <span className="opacity-50 mr-2 text-[10px]" style={{fontFamily:'monospace'}}>
                           {String.fromCharCode(65+oi)}.
                         </span>
-                        {opt}{isCorr&&' ✓'}{isWrong&&' ✗'}
+                        {opt}{isCorr && <Check size={12} strokeWidth={3} style={{ display:'inline', verticalAlign:'-2px', marginLeft:4 }} />}{isWrong && <X size={12} strokeWidth={3} style={{ display:'inline', verticalAlign:'-2px', marginLeft:4 }} />}
                       </button>
                     )
                   })}
@@ -436,10 +439,10 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
             <p className="text-5xl font-black leading-none m-0"
                style={{ fontFamily:'monospace', color:score===4?'var(--rp-amber)':score>=3?'var(--rp-green)':'var(--rp-text-dim)' }}>{score}/4</p>
             <p className="text-sm font-bold m-0" style={{ color:score===4?'var(--rp-amber)':score>=3?'var(--rp-green)':'var(--rp-text-dim)' }}>
-              {score===4?'🔥 Perfect — you read it correctly':score===3?'✓ Strong read — nearly there':score===2?'Decent — review the explanations':'Keep studying — this will click'}
+              {score===4?'Perfect — you read it correctly':score===3?'Strong read — nearly there':score===2?'Decent — review the explanations':'Keep studying — this will click'}
             </p>
             <div className="rounded-xl px-4 py-3 text-left" style={{ background:'var(--rp-surface-2)', border:'1px solid var(--rp-border)' }}>
-              <p className="text-[9px] font-black uppercase tracking-widest m-0 mb-1" style={{ color:'var(--rp-text-faint)' }}>What actually happened</p>
+              <p className="text-[10px] font-black uppercase tracking-widest m-0 mb-1" style={{ color:'var(--rp-text-faint)' }}>What actually happened</p>
               <p className="text-xs leading-relaxed m-0" style={{ color:'var(--rp-text-dim)' }}><GlossaryText text={scenario.explanation} /></p>
               {scenario.rAchieved && (
                 <p className="text-xs font-bold mt-1.5 m-0"

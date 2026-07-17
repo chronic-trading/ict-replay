@@ -1,73 +1,49 @@
-# React + TypeScript + Vite
+# ICT Replay Trainer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Practice reading real ICT setups. Study a scenario, identify the concept, pick the
+direction, name the draw on liquidity, and place your entry — then get scored on
+the read. Includes bar-by-bar **Trade Mode** (play the tape and manage a live
+position), a timed **Exam Mode**, daily streaks, and progress tracking.
 
-Currently, two official plugins are available:
+Part of the **Chronic Trading** suite alongside [Trading Lab](https://chronic-trading.github.io/trading-lab/)
+(the model builder) and the [ICT Glossary](https://chronic-trading.github.io/ict-glossary/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+- **React 19** + **TypeScript** + **Vite 8**
+- **Tailwind CSS 4** for utilities; component colors flow from CSS custom
+  properties (`--rp-*`) so themes stay consistent
+- **lightweight-charts** for the bar-by-bar replay in Trade Mode
+- **lucide-react** for iconography
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Running locally
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev      # http://localhost:5174
+npm run build    # type-check + production build to dist/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+No account or backend is required — the trainer runs entirely in the browser.
+Progress (`ict-replay-progress`, streaks, exam best, saved trades) is kept in
+`localStorage`. If you're signed into Trading Lab in the same browser,
+`src/lib/crossSync.ts` mirrors progress into the shared session so the suite
+sites stay in sync; signed out, it's a no-op and everything stays local.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Theming
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Warm light is the default; dark is opt-in via `<html data-theme="dark">`. Both
+themes are defined as token sets in `src/index.css` (`--rp-*`), and the dark
+values are the app's original palette, so dark mode is pixel-identical to before
+the tokens were introduced. The token contract is kept in sync across
+trading-lab / ict-replay / ict-glossary.
+
+## Source layout
+
+- `src/App.tsx` — scenario browser, scoring flow, results
+- `src/components/TradeMode.tsx` — bar-by-bar replay + position management
+- `src/components/ExamMode.tsx` — timed 10-question exam
+- `src/data/scenarios.ts` — the scored scenarios
+- `src/lib/crossSync.ts` — cross-site progress sync (defensive; local-first)
+
+Deployed to GitHub Pages on push to `main`.

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { Play, Pause } from 'lucide-react'
 import { createChart, ColorType, CandlestickSeries, LineStyle, createSeriesMarkers } from 'lightweight-charts'
 import type { Scenario } from '../data/scenarios'
 
@@ -265,7 +266,7 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
            style={{ background: '#06060e', height: 380 }}>
         <div className="absolute top-3 left-4 z-10 flex items-center gap-2">
           <span className="text-[10px] font-bold text-slate-500" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{file.symbol}</span>
-          <span className="text-[9px] text-slate-700">{file.interval}</span>
+          <span className="text-[10px] text-slate-700">{file.interval}</span>
         </div>
         {inSetup && armed && (
           <div className="absolute bottom-3 left-4 z-10 px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/60">
@@ -288,7 +289,7 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
         {/* Direction + levels */}
         <div className="flex flex-wrap items-end gap-3">
           <div>
-            <p className="text-[9px] font-black uppercase tracking-widest mb-1.5" style={{ color: 'var(--rp-text-faint)' }}>Direction</p>
+            <p className="text-[10px] font-black uppercase tracking-widest mb-1.5" style={{ color: 'var(--rp-text-faint)' }}>Direction</p>
             <div className="flex gap-1.5">
               {(['long', 'short'] as const).map(d => (
                 <button key={d} onClick={() => inSetup && switchDirection(d)} disabled={!inSetup}
@@ -308,7 +309,7 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
           {(Object.keys(LEVEL_META) as Level[]).map(lvl => (
             <div key={lvl}>
               <button onClick={() => inSetup && setArmed(armed === lvl ? null : lvl)} disabled={!inSetup}
-                className="text-[9px] font-black uppercase tracking-widest mb-1.5 block transition-all"
+                className="text-[10px] font-black uppercase tracking-widest mb-1.5 block transition-all"
                 style={{ color: armed === lvl && inSetup ? LEVEL_META[lvl].ink : 'var(--rp-text-faint)', cursor: inSetup ? 'pointer' : 'default' }}>
                 {LEVEL_META[lvl].label} {armed === lvl && inSetup ? '◉' : ''}
               </button>
@@ -330,7 +331,7 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
           ))}
 
           <div className="ml-auto text-right">
-            <p className="text-[9px] font-black uppercase tracking-widest mb-1.5" style={{ color: 'var(--rp-text-faint)' }}>Planned</p>
+            <p className="text-[10px] font-black uppercase tracking-widest mb-1.5" style={{ color: 'var(--rp-text-faint)' }}>Planned</p>
             <p className="text-[16px] font-black" style={{ fontFamily: "'JetBrains Mono', monospace", color: riskR ? 'var(--rp-text)' : 'var(--rp-text-faint)' }}>
               {riskR ? `${riskR.toFixed(1)}R` : '—'}
             </p>
@@ -345,23 +346,23 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
         <div className="flex flex-wrap items-center gap-2 pt-1 border-t" style={{ borderColor: 'var(--rp-border)' }}>
           {inSetup && (
             <button onClick={start} disabled={!!validation}
-              className="px-5 py-2.5 rounded-xl text-[12px] font-black tracking-wide transition-all border-0"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-black tracking-wide transition-all border-0"
               style={{
                 background: validation ? 'rgba(30,41,59,0.5)' : 'linear-gradient(135deg,#f59e0b,#d97706)',
                 color: validation ? '#475569' : '#0a0800',
                 cursor: validation ? 'not-allowed' : 'pointer',
               }}>
-              ▶ Play the tape
+              <Play size={13} strokeWidth={2.5} fill="currentColor" /> Play the tape
             </button>
           )}
           {phase === 'playing' && (
-            <button onClick={pause} className="px-5 py-2.5 rounded-xl text-[12px] font-bold border cursor-pointer" style={{ background: 'transparent', borderColor: 'var(--rp-border)', color: 'var(--rp-text-dim)' }}>
-              ⏸ Pause
+            <button onClick={pause} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-bold border cursor-pointer" style={{ background: 'transparent', borderColor: 'var(--rp-border)', color: 'var(--rp-text-dim)' }}>
+              <Pause size={13} strokeWidth={2.5} fill="currentColor" /> Pause
             </button>
           )}
           {phase === 'paused' && (
-            <button onClick={resume} className="px-5 py-2.5 rounded-xl text-[12px] font-bold border cursor-pointer" style={{ background: 'rgba(245,158,11,0.1)', borderColor: 'rgba(245,158,11,0.4)', color: 'var(--rp-amber)' }}>
-              ▶ Resume
+            <button onClick={resume} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-bold border cursor-pointer" style={{ background: 'rgba(245,158,11,0.1)', borderColor: 'rgba(245,158,11,0.4)', color: 'var(--rp-amber)' }}>
+              <Play size={13} strokeWidth={2.5} fill="currentColor" /> Resume
             </button>
           )}
           {(phase === 'done' || phase === 'paused') && (
@@ -371,7 +372,7 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
           )}
 
           <div className="flex items-center gap-1 ml-auto">
-            <span className="text-[9px] font-black uppercase tracking-widest mr-1" style={{ color: 'var(--rp-text-faint)' }}>Speed</span>
+            <span className="text-[10px] font-black uppercase tracking-widest mr-1" style={{ color: 'var(--rp-text-faint)' }}>Speed</span>
             {SPEEDS.map((s, i) => (
               <button key={s.label} onClick={() => changeSpeed(i)}
                 className="px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-all border cursor-pointer"
@@ -403,7 +404,7 @@ export function TradeMode({ scenario, chart: file, onExit, onComplete }: {
             {result.outcome === 'nofill' ? 'NO FILL' : `${result.r >= 0 ? '+' : ''}${result.r}R`}
           </p>
           <p className="text-sm font-bold m-0" style={{ color: result.outcome === 'target' ? 'var(--rp-green)' : result.outcome === 'stopped' ? 'var(--rp-red)' : 'var(--rp-text-dim)' }}>
-            {result.outcome === 'target'  && '🎯 Target hit — clean execution'}
+            {result.outcome === 'target'  && 'Target hit — clean execution'}
             {result.outcome === 'stopped' && 'Stopped out — review your level placement'}
             {result.outcome === 'expired' && 'Marked to market at the end of the data'}
             {result.outcome === 'nofill'  && 'Your limit order was never touched — entry too far from price'}
