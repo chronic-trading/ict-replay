@@ -111,3 +111,52 @@ body { margin: 0; background: var(--rp-bg); color: var(--rp-text); font-family: 
     scroll-behavior: auto !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Mobile pass — ported from trading-lab and ict-glossary. Desktop unchanged.
+   This app sizes text two ways, so both need handling: Tailwind arbitrary
+   utilities (text-[10px]) and inline styles (style={{ fontSize: 9 }}).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Inline sizes point at these; the variables are what changes at the breakpoint,
+   because a media query cannot reach an element style attribute. */
+:root { --fs-micro: 9px;    --fs-tiny: 10px; }
+@media (max-width: 767px) {
+  :root { --fs-micro: 11px; --fs-tiny: 11.5px; }
+
+  /* The utility side. `html &` rather than a bare class: Tailwind v4 emits
+     arbitrary utilities in a late layer, so a single-class rule loses on source
+     order regardless of where it sits here. The element bumps specificity. */
+  html .text-\[10px\] { font-size: 11.5px; }
+  html .text-\[11px\] { font-size: 12px; }
+  html .text-\[9px\]  { font-size: 11px; }
+}
+
+/* Touch targets. Buttons only — anchors are often inline links inside prose,
+   where a 44px box would be wrong. */
+@media (max-width: 767px) {
+  button:not(.rp-inline) { min-height: 44px; min-width: 44px; }
+  input:not([type="checkbox"]):not([type="radio"]), select, textarea { min-height: 44px; }
+  /* Under 16px, iOS zooms the page as soon as a field is focused. */
+  input, select, textarea { font-size: 16px !important; }
+  /* Guard against panels wider than the screen. */
+  div, section, header, footer, img, table, pre { max-width: 100%; }
+}
+
+/* Native feel. None of this existed: taps flashed a grey box, every control
+   carried the legacy 300ms double-tap delay, and scrolling a panel to its end
+   dragged the page behind it. */
+button, a, [role="button"], input, select, textarea, label {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+button, [role="button"], nav { -webkit-user-select: none; user-select: none; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+.overflow-y-auto, .overflow-auto, [class*="overflow-y"] {
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 767px) {
+  .rp-safe-top { padding-top: max(env(safe-area-inset-top, 0px), 10px); }
+}

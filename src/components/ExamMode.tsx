@@ -80,8 +80,8 @@ export function ExamMode({ onClose, onFinish }: { onClose: () => void; onFinish:
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2.5">
             <span style={{ fontSize:11, fontWeight:900, letterSpacing:'0.2em', color:'var(--rp-amber)', display:'inline-flex', alignItems:'center', gap:6 }}><GraduationCap size={14} strokeWidth={2} /> EXAM MODE</span>
-            {!finished && <span style={{ fontSize:10, color:'var(--rp-text-faint)', fontWeight:700 }}>{qi + 1} / {exam.length}</span>}
-            {best > 0 && <span style={{ fontSize:10, fontWeight:700, color:'var(--rp-amber)' }}>Best {best}/{EXAM_SIZE}</span>}
+            {!finished && <span style={{ fontSize: 'var(--fs-tiny)', color:'var(--rp-text-faint)', fontWeight:700 }}>{qi + 1} / {exam.length}</span>}
+            {best > 0 && <span style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, color:'var(--rp-amber)' }}>Best {best}/{EXAM_SIZE}</span>}
           </div>
           <button onClick={onClose}
             className="flex items-center gap-1.5 text-[12px] font-bold px-3 py-1.5 rounded-lg border transition-all cursor-pointer"
@@ -99,10 +99,10 @@ export function ExamMode({ onClose, onFinish }: { onClose: () => void; onFinish:
           <div className="space-y-3">
             {/* No feedback in exam mode — answers reveal at the end */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span style={{ fontSize:9, fontWeight:900, letterSpacing:'0.12em', textTransform:'uppercase', padding:'3px 9px', borderRadius:999, color:'var(--rp-slate)', background:'rgba(148,163,184,0.1)', border:'1px solid rgba(148,163,184,0.25)' }}>
+              <span style={{ fontSize: 'var(--fs-micro)', fontWeight:900, letterSpacing:'0.12em', textTransform:'uppercase', padding:'3px 9px', borderRadius:999, color:'var(--rp-slate)', background:'rgba(148,163,184,0.1)', border:'1px solid rgba(148,163,184,0.25)' }}>
                 {current.scenario.title}
               </span>
-              <span style={{ fontSize:9, color:'var(--rp-text-faint)', fontFamily:'monospace' }}>
+              <span style={{ fontSize: 'var(--fs-micro)', color:'var(--rp-text-faint)', fontFamily:'monospace' }}>
                 {current.scenario.instrument} · {current.scenario.timeframe} · {current.scenario.session}
               </span>
             </div>
@@ -126,7 +126,7 @@ export function ExamMode({ onClose, onFinish }: { onClose: () => void; onFinish:
                 </button>
               ))}
             </div>
-            <p style={{ fontSize:10, color:'var(--rp-text-faint)', textAlign:'center' }}>No feedback until the end — commit like it's live.</p>
+            <p style={{ fontSize: 'var(--fs-tiny)', color:'var(--rp-text-faint)', textAlign:'center' }}>No feedback until the end — commit like it's live.</p>
           </div>
         )}
 
@@ -139,7 +139,7 @@ export function ExamMode({ onClose, onFinish }: { onClose: () => void; onFinish:
               <p className="text-sm font-bold mt-3" style={{ color: score >= 8 ? 'var(--rp-green)' : score >= 5 ? 'var(--rp-amber)' : 'var(--rp-red)' }}>
                 {score === exam.length ? 'Flawless — funded-trader material' : score >= 8 ? 'Sharp — the concepts are sticking' : score >= 5 ? 'Passing — drill the misses below' : 'Back to the scenarios — repetition builds the read'}
               </p>
-              {score >= best && score > 0 && <p style={{ fontSize:10, fontWeight:900, letterSpacing:'0.15em', color:'var(--rp-amber)', textTransform:'uppercase', marginTop:8, display:'flex', alignItems:'center', justifyContent:'center', gap:5 }}><Star size={11} strokeWidth={2} fill="currentColor" /> New best</p>}
+              {score >= best && score > 0 && <p style={{ fontSize: 'var(--fs-tiny)', fontWeight:900, letterSpacing:'0.15em', color:'var(--rp-amber)', textTransform:'uppercase', marginTop:8, display:'flex', alignItems:'center', justifyContent:'center', gap:5 }}><Star size={11} strokeWidth={2} fill="currentColor" /> New best</p>}
             </div>
 
             {/* Review misses */}

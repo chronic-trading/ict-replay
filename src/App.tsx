@@ -102,7 +102,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
             <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:10 }}>
               <div style={{ display:'flex', alignItems:'center', gap:8 }}>
                 {progress.signedIn && (
-                  <div style={{ display:'flex', alignItems:'center', gap:5, fontSize:9, fontWeight:700, letterSpacing:'0.08em', color:'var(--rp-green)', background:'rgba(52,211,153,0.08)', border:'1px solid rgba(52,211,153,0.22)', borderRadius:7, padding:'3px 9px' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:5, fontSize: 'var(--fs-micro)', fontWeight:700, letterSpacing:'0.08em', color:'var(--rp-green)', background:'rgba(52,211,153,0.08)', border:'1px solid rgba(52,211,153,0.22)', borderRadius:7, padding:'3px 9px' }}>
                     <span style={{ width:5, height:5, borderRadius:'50%', background:'var(--rp-green)' }}/>
                     Synced
                   </div>
@@ -119,7 +119,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
                 ].map(s => (
                   <div key={s.l} className="text-center">
                     <p className="font-black m-0" style={{ fontFamily:'monospace', fontSize:22, color:s.c }}>{s.v}</p>
-                    <p className="uppercase tracking-widest m-0 mt-0.5" style={{ fontSize:8, color:'var(--rp-text-faint)' }}>{s.l}</p>
+                    <p className="uppercase tracking-widest m-0 mt-0.5" style={{ fontSize: 'var(--fs-micro)', color:'var(--rp-text-faint)' }}>{s.l}</p>
                   </div>
                 ))}
               </div>
@@ -129,7 +129,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
                   <div style={{ width:120, height:3, borderRadius:2, background:'var(--rp-surface-2)', overflow:'hidden' }}>
                     <div style={{ width:`${donePct}%`, height:'100%', background:'linear-gradient(90deg,#f59e0b,#fbbf24)', borderRadius:2, transition:'width 0.6s ease' }}/>
                   </div>
-                  <span style={{ fontSize:9, fontWeight:700, color:'var(--rp-amber)' }}>{donePct}%</span>
+                  <span style={{ fontSize: 'var(--fs-micro)', fontWeight:700, color:'var(--rp-amber)' }}>{donePct}%</span>
                 </div>
               )}
             </div>
@@ -138,14 +138,14 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
           {/* Filters */}
           <div style={{ display:'flex', flexWrap:'wrap', gap:6, alignItems:'center' }}>
             <button onClick={() => setFilter('all')}
-              style={{ fontSize:10, fontWeight:700, padding:'5px 13px', borderRadius:9, border:`1px solid ${filter==='all'?'var(--rp-border-strong)':'var(--rp-border)'}`, background:filter==='all'?'var(--rp-surface-2)':'transparent', color:filter==='all'?'var(--rp-text)':'var(--rp-text-faint)', cursor:'pointer', transition:'all 0.15s' }}>
+              style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, padding:'5px 13px', borderRadius:9, border:`1px solid ${filter==='all'?'var(--rp-border-strong)':'var(--rp-border)'}`, background:filter==='all'?'var(--rp-surface-2)':'transparent', color:filter==='all'?'var(--rp-text)':'var(--rp-text-faint)', cursor:'pointer', transition:'all 0.15s' }}>
               All
             </button>
             {cats.map(c => {
               const m = CAT[c], active = filter === c
               return (
                 <button key={c} onClick={() => setFilter(c)}
-                  style={{ fontSize:10, fontWeight:700, padding:'5px 13px', borderRadius:9, border:`1px solid ${active?m.border:'var(--rp-border)'}`, background:active?m.bg:'transparent', color:active?m.ink:'var(--rp-text-faint)', cursor:'pointer', transition:'all 0.15s', display:'flex', alignItems:'center', gap:5 }}>
+                  style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, padding:'5px 13px', borderRadius:9, border:`1px solid ${active?m.border:'var(--rp-border)'}`, background:active?m.bg:'transparent', color:active?m.ink:'var(--rp-text-faint)', cursor:'pointer', transition:'all 0.15s', display:'flex', alignItems:'center', gap:5 }}>
                   <span style={{ width:5, height:5, borderRadius:'50%', background:m.ink, opacity:active?1:0.4, display:'inline-block' }}/>
                   {m.label}
                 </button>
@@ -158,7 +158,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
               const dbg = d==='all' ? 'rgba(100,116,139,0.15)' : d==='beginner' ? 'rgba(52,211,153,0.1)' : d==='intermediate' ? 'rgba(245,158,11,0.1)' : 'rgba(248,113,113,0.1)'
               return (
                 <button key={d} onClick={() => setDiff(d)}
-                  style={{ fontSize:10, fontWeight:700, padding:'5px 13px', borderRadius:9, cursor:'pointer', transition:'all 0.15s', textTransform:'capitalize',
+                  style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, padding:'5px 13px', borderRadius:9, cursor:'pointer', transition:'all 0.15s', textTransform:'capitalize',
                     border: `1px solid ${active ? dc : 'var(--rp-border)'}`,
                     background: active ? dbg : 'transparent',
                     color: active ? dc : 'var(--rp-text-faint)',
@@ -167,11 +167,11 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
                 </button>
               )
             })}
-            <span style={{ marginLeft:'auto', fontSize:10, color:'var(--rp-text-faint)', fontWeight:600 }}>
+            <span style={{ marginLeft:'auto', fontSize: 'var(--fs-tiny)', color:'var(--rp-text-faint)', fontWeight:600 }}>
               {shown.length} scenario{shown.length !== 1 ? 's' : ''}
             </span>
             <button onClick={onExam}
-              style={{ fontSize:10, fontWeight:900, letterSpacing:'0.08em', padding:'5px 14px', borderRadius:9, border:'1px solid rgba(245,158,11,0.35)', background:'rgba(245,158,11,0.12)', color:'var(--rp-amber)', cursor:'pointer', transition:'all 0.15s', display:'inline-flex', alignItems:'center', gap:5 }}>
+              style={{ fontSize: 'var(--fs-tiny)', fontWeight:900, letterSpacing:'0.08em', padding:'5px 14px', borderRadius:9, border:'1px solid rgba(245,158,11,0.35)', background:'rgba(245,158,11,0.12)', color:'var(--rp-amber)', cursor:'pointer', transition:'all 0.15s', display:'inline-flex', alignItems:'center', gap:5 }}>
               <GraduationCap size={13} strokeWidth={2} /> EXAM
             </button>
           </div>
@@ -197,8 +197,8 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
               </div>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3, flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: 9, fontWeight: 900, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--rp-amber)' }}>Today's Challenge</span>
-                  <span style={{ fontSize: 9, color: 'var(--rp-text-faint)', fontWeight: 600 }}>{dateLabel}</span>
+                  <span style={{ fontSize: 'var(--fs-micro)', fontWeight: 900, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--rp-amber)' }}>Today's Challenge</span>
+                  <span style={{ fontSize: 'var(--fs-micro)', color: 'var(--rp-text-faint)', fontWeight: 600 }}>{dateLabel}</span>
                 </div>
                 <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--rp-text)', lineHeight: 1.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{daily.title}</p>
                 <p style={{ fontSize: 11, color: 'var(--rp-text-faint)', marginTop: 1 }}>{dm.label} · {daily.instrument} · {daily.timeframe} · <span style={{ textTransform: 'capitalize' }}>{daily.difficulty}</span></p>
@@ -231,14 +231,14 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
                 <div style={{ position:'absolute', top:0, left:0, width:3, height:'100%', background:m.ink, opacity: done ? 0.8 : 0.35, borderRadius:'12px 0 0 12px' }}/>
                 <div style={{ paddingLeft:8 }}>
                   <div className="flex items-center justify-between mb-3">
-                    <span style={{ fontSize:9, fontWeight:900, letterSpacing:'0.1em', textTransform:'uppercase', padding:'3px 9px', borderRadius:999, color:m.ink, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
+                    <span style={{ fontSize: 'var(--fs-micro)', fontWeight:900, letterSpacing:'0.1em', textTransform:'uppercase', padding:'3px 9px', borderRadius:999, color:m.ink, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
                     <div className="flex items-center gap-2">
                       {trade && (
-                        <span style={{ fontSize:10, fontWeight:900, fontFamily:'monospace', color: trade.r >= 0 ? 'var(--rp-green)' : 'var(--rp-red)' }}>
+                        <span style={{ fontSize: 'var(--fs-tiny)', fontWeight:900, fontFamily:'monospace', color: trade.r >= 0 ? 'var(--rp-green)' : 'var(--rp-red)' }}>
                           {trade.r >= 0 ? '+' : ''}{trade.r}R
                         </span>
                       )}
-                      <span style={{ fontSize:9, fontWeight:700, textTransform:'capitalize', color:DIFF[s.difficulty] }}>{s.difficulty}</span>
+                      <span style={{ fontSize: 'var(--fs-micro)', fontWeight:700, textTransform:'capitalize', color:DIFF[s.difficulty] }}>{s.difficulty}</span>
                       {done && (
                         <span style={{ fontSize:11, fontWeight:900, color:perfect?'var(--rp-amber)':'var(--rp-text-faint)', display:'inline-flex', alignItems:'center' }}>
                           {perfect ? <Star size={12} strokeWidth={2} fill="currentColor" /> : `${res!.score}/4`}
@@ -247,7 +247,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
                     </div>
                   </div>
                   <p style={{ fontSize:13, fontWeight:700, color:'var(--rp-text)', lineHeight:1.35, marginBottom:10 }}>{s.title}</p>
-                  <div style={{ display:'flex', alignItems:'center', gap:5, fontSize:10, color:'var(--rp-text-faint)' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:5, fontSize: 'var(--fs-tiny)', color:'var(--rp-text-faint)' }}>
                     <span style={{ fontFamily:'monospace' }}>{s.instrument}</span>
                     <span>·</span><span>{s.timeframe}</span><span>·</span><span>{s.session}</span>
                     <span style={{ marginLeft:'auto', fontWeight:700, color: perfect?'var(--rp-amber)' : done?'var(--rp-text-faint)' : m.ink }}>
@@ -311,7 +311,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
         </button>
         <span style={{ width:1, height:14, background:'var(--rp-border)', display:'inline-block' }} />
         <span style={{ fontSize: 11, color:'var(--rp-text-faint)', fontFamily:'monospace' }}>{scenario.instrument} · {scenario.timeframe} · {scenario.session}</span>
-        <span style={{ marginLeft:'auto', fontSize:9, fontWeight:900, textTransform:'uppercase', letterSpacing:'0.1em', padding:'3px 10px', borderRadius:999, color:m.ink, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
+        <span style={{ marginLeft:'auto', fontSize: 'var(--fs-micro)', fontWeight:900, textTransform:'uppercase', letterSpacing:'0.1em', padding:'3px 10px', borderRadius:999, color:m.ink, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
         <ThemeToggle />
       </div>
 
@@ -320,7 +320,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
         <div className="max-w-4xl mx-auto px-4 py-4 space-y-3">
           <div>
             <h1 style={{ fontSize:20, fontWeight:900, color:'var(--rp-text)', margin:0, lineHeight:1.2 }}>{scenario.title}</h1>
-            <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--rp-amber)' }}>
+            <span style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--rp-amber)' }}>
               Trade mode — set your levels, then play the tape
             </span>
           </div>
@@ -333,7 +333,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
         <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:12 }}>
           <div>
             <h1 style={{ fontSize:20, fontWeight:900, color:'var(--rp-text)', margin:0, lineHeight:1.2 }}>{scenario.title}</h1>
-            <span style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', color:DIFF[scenario.difficulty] }}>{scenario.difficulty}</span>
+            <span style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', color:DIFF[scenario.difficulty] }}>{scenario.difficulty}</span>
           </div>
           {submitted && (
             <div style={{ flexShrink:0, width:44, height:44, borderRadius:12, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'monospace', fontWeight:900, fontSize:16,
@@ -347,7 +347,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
 
         {/* Context */}
         <div style={{ borderRadius:16, border:`1px solid ${m.border}`, padding:'12px 14px', background:`linear-gradient(160deg,${m.color}10,var(--rp-surface) 60%)` }}>
-          <p style={{ fontSize:9, fontWeight:900, textTransform:'uppercase', letterSpacing:'0.18em', color:m.ink, margin:'0 0 8px' }}>Context</p>
+          <p style={{ fontSize: 'var(--fs-micro)', fontWeight:900, textTransform:'uppercase', letterSpacing:'0.18em', color:m.ink, margin:'0 0 8px' }}>Context</p>
           <p style={{ fontSize: 12, color:'var(--rp-text-dim)', lineHeight:1.65, margin:'0 0 6px' }}><span style={{ color:'var(--rp-text)', fontWeight:600 }}>HTF: </span>{scenario.htfContext}</p>
           <p style={{ fontSize: 12, color:'var(--rp-text-dim)', lineHeight:1.65, margin:0 }}><span style={{ color:'var(--rp-text)', fontWeight:600 }}>Session: </span>{scenario.sessionContext}</p>
         </div>

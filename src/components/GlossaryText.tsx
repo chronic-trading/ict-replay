@@ -132,7 +132,7 @@ export function GlossaryText({ text }: { text: string }) {
             <span style={{ width: 5, height: 5, borderRadius: '50%', background: color, boxShadow: `0 0 6px ${color}`, flexShrink: 0 }} />
             <span style={{ fontSize: 13, fontWeight: 900, color: 'rgba(255,255,255,0.95)', letterSpacing: '-0.1px' }}>{pop.term.term}</span>
             {pop.term.abbr && (
-              <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: '0.12em', padding: '2px 7px', borderRadius: 6, background: `${color}16`, color, border: `1px solid ${color}30` }}>
+              <span style={{ fontSize: 'var(--fs-tiny)', fontWeight: 900, letterSpacing: '0.12em', padding: '2px 7px', borderRadius: 6, background: `${color}16`, color, border: `1px solid ${color}30` }}>
                 {pop.term.abbr}
               </span>
             )}
@@ -144,7 +144,7 @@ export function GlossaryText({ text }: { text: string }) {
             href={`${GLOSSARY_URL}?t=${pop.term.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ display: 'inline-block', marginTop: 9, fontSize: 10, fontWeight: 900, letterSpacing: '0.08em', textTransform: 'uppercase', color, textDecoration: 'none' }}
+            style={{ display: 'inline-block', marginTop: 9, fontSize: 'var(--fs-tiny)', fontWeight: 900, letterSpacing: '0.08em', textTransform: 'uppercase', color, textDecoration: 'none' }}
           >
             Full entry + diagram ↗
           </a>
