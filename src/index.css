@@ -91,7 +91,7 @@ body { margin: 0; background: var(--rp-bg); color: var(--rp-text); font-family: 
 :focus-visible {
   outline: 2px solid var(--rp-amber);
   outline-offset: 2px;
-  border-radius: 6px;
+  border-radius: 2px;
 }
 :focus:not(:focus-visible) { outline: none; }
 
@@ -99,7 +99,7 @@ body { margin: 0; background: var(--rp-bg); color: var(--rp-text); font-family: 
 ::selection { background: color-mix(in srgb, var(--rp-amber) 24%, transparent); color: var(--rp-text); }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--rp-border-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--rp-border-strong); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--rp-text-faint); }
 
 /* Respect the OS "reduce motion" setting — stop the card/pulse animations. */
@@ -160,3 +160,25 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @media (max-width: 767px) {
   .rp-safe-top { padding-top: max(env(safe-area-inset-top, 0px), 10px); }
 }
+
+/* ── House geometry ──────────────────────────────────────────────────────────
+   Squared to match trading-lab and the landing. Tailwind v4 emits
+   .rounded-xl as border-radius: var(--radius-xl), so redefining the scale
+   squares every existing utility and everything written later, without
+   touching a single call site.
+
+   rounded-full is exempt by construction — Tailwind emits it as a literal, not
+   a variable — so dots and circular marks keep their shape. */
+@theme {
+  --radius-sm:  2px;
+  --radius-md:  2px;
+  --radius-lg:  2px;
+  --radius-xl:  2px;
+  --radius-2xl: 2px;
+  --radius-3xl: 2px;
+}
+
+/* Flat: elevation is the other half of the card look. Tailwind bakes shadow
+   values into the utility rather than reading a token, so this zeroes the
+   utility directly. */
+.shadow-sm, .shadow-md, .shadow-lg, .shadow-xl { --tw-shadow: 0 0 #0000; }

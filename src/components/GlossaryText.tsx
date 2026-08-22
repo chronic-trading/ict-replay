@@ -123,7 +123,7 @@ export function GlossaryText({ text }: { text: string }) {
             ...(pop.above ? { bottom: window.innerHeight - pop.y } : { top: pop.y }),
             background: 'rgba(8,8,16,0.98)',
             border: `1px solid ${color}44`, borderLeft: `3px solid ${color}`,
-            borderRadius: 14, padding: '12px 14px',
+            borderRadius:2, padding: '12px 14px',
             boxShadow: `0 12px 40px rgba(0,0,0,0.65), 0 0 24px ${color}18`,
             textAlign: 'left',
           }}
@@ -132,7 +132,7 @@ export function GlossaryText({ text }: { text: string }) {
             <span style={{ width: 5, height: 5, borderRadius: '50%', background: color, boxShadow: `0 0 6px ${color}`, flexShrink: 0 }} />
             <span style={{ fontSize: 13, fontWeight: 900, color: 'rgba(255,255,255,0.95)', letterSpacing: '-0.1px' }}>{pop.term.term}</span>
             {pop.term.abbr && (
-              <span style={{ fontSize: 'var(--fs-tiny)', fontWeight: 900, letterSpacing: '0.12em', padding: '2px 7px', borderRadius: 6, background: `${color}16`, color, border: `1px solid ${color}30` }}>
+              <span style={{ fontSize: 'var(--fs-tiny)', fontWeight: 900, letterSpacing: '0.12em', padding: '2px 7px', borderRadius:2, background: `${color}16`, color, border: `1px solid ${color}30` }}>
                 {pop.term.abbr}
               </span>
             )}

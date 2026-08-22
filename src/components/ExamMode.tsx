@@ -99,7 +99,7 @@ export function ExamMode({ onClose, onFinish }: { onClose: () => void; onFinish:
           <div className="space-y-3">
             {/* No feedback in exam mode — answers reveal at the end */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span style={{ fontSize: 'var(--fs-micro)', fontWeight:900, letterSpacing:'0.12em', textTransform:'uppercase', padding:'3px 9px', borderRadius:999, color:'var(--rp-slate)', background:'rgba(148,163,184,0.1)', border:'1px solid rgba(148,163,184,0.25)' }}>
+              <span style={{ fontSize: 'var(--fs-micro)', fontWeight:900, letterSpacing:'0.12em', textTransform:'uppercase', padding:'3px 9px', borderRadius:2, color:'var(--rp-slate)', background:'rgba(148,163,184,0.1)', border:'1px solid rgba(148,163,184,0.25)' }}>
                 {current.scenario.title}
               </span>
               <span style={{ fontSize: 'var(--fs-micro)', color:'var(--rp-text-faint)', fontFamily:'monospace' }}>

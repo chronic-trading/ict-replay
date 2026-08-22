@@ -31,7 +31,7 @@ function ThemeToggle() {
   const { theme, toggle } = useTheme()
   return (
     <button onClick={toggle} title={theme === 'light' ? 'Switch to dark' : 'Switch to light'} aria-label="Toggle theme"
-      style={{ display:'flex', alignItems:'center', justifyContent:'center', width:30, height:30, borderRadius:9, cursor:'pointer',
+      style={{ display:'flex', alignItems:'center', justifyContent:'center', width:30, height:30, borderRadius:2, cursor:'pointer',
         background:'var(--rp-surface-2)', border:'1px solid var(--rp-border)', color:'var(--rp-text-dim)', transition:'all 0.15s' }}>
       {theme === 'light' ? <Moon size={15} strokeWidth={2} /> : <Sun size={15} strokeWidth={2} />}
     </button>
@@ -102,7 +102,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
             <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:10 }}>
               <div style={{ display:'flex', alignItems:'center', gap:8 }}>
                 {progress.signedIn && (
-                  <div style={{ display:'flex', alignItems:'center', gap:5, fontSize: 'var(--fs-micro)', fontWeight:700, letterSpacing:'0.08em', color:'var(--rp-green)', background:'rgba(52,211,153,0.08)', border:'1px solid rgba(52,211,153,0.22)', borderRadius:7, padding:'3px 9px' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:5, fontSize: 'var(--fs-micro)', fontWeight:700, letterSpacing:'0.08em', color:'var(--rp-green)', background:'rgba(52,211,153,0.08)', border:'1px solid rgba(52,211,153,0.22)', borderRadius:2, padding:'3px 9px' }}>
                     <span style={{ width:5, height:5, borderRadius:'50%', background:'var(--rp-green)' }}/>
                     Synced
                   </div>
@@ -138,14 +138,14 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
           {/* Filters */}
           <div style={{ display:'flex', flexWrap:'wrap', gap:6, alignItems:'center' }}>
             <button onClick={() => setFilter('all')}
-              style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, padding:'5px 13px', borderRadius:9, border:`1px solid ${filter==='all'?'var(--rp-border-strong)':'var(--rp-border)'}`, background:filter==='all'?'var(--rp-surface-2)':'transparent', color:filter==='all'?'var(--rp-text)':'var(--rp-text-faint)', cursor:'pointer', transition:'all 0.15s' }}>
+              style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, padding:'5px 13px', borderRadius:2, border:`1px solid ${filter==='all'?'var(--rp-border-strong)':'var(--rp-border)'}`, background:filter==='all'?'var(--rp-surface-2)':'transparent', color:filter==='all'?'var(--rp-text)':'var(--rp-text-faint)', cursor:'pointer', transition:'all 0.15s' }}>
               All
             </button>
             {cats.map(c => {
               const m = CAT[c], active = filter === c
               return (
                 <button key={c} onClick={() => setFilter(c)}
-                  style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, padding:'5px 13px', borderRadius:9, border:`1px solid ${active?m.border:'var(--rp-border)'}`, background:active?m.bg:'transparent', color:active?m.ink:'var(--rp-text-faint)', cursor:'pointer', transition:'all 0.15s', display:'flex', alignItems:'center', gap:5 }}>
+                  style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, padding:'5px 13px', borderRadius:2, border:`1px solid ${active?m.border:'var(--rp-border)'}`, background:active?m.bg:'transparent', color:active?m.ink:'var(--rp-text-faint)', cursor:'pointer', transition:'all 0.15s', display:'flex', alignItems:'center', gap:5 }}>
                   <span style={{ width:5, height:5, borderRadius:'50%', background:m.ink, opacity:active?1:0.4, display:'inline-block' }}/>
                   {m.label}
                 </button>
@@ -158,7 +158,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
               const dbg = d==='all' ? 'rgba(100,116,139,0.15)' : d==='beginner' ? 'rgba(52,211,153,0.1)' : d==='intermediate' ? 'rgba(245,158,11,0.1)' : 'rgba(248,113,113,0.1)'
               return (
                 <button key={d} onClick={() => setDiff(d)}
-                  style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, padding:'5px 13px', borderRadius:9, cursor:'pointer', transition:'all 0.15s', textTransform:'capitalize',
+                  style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, padding:'5px 13px', borderRadius:2, cursor:'pointer', transition:'all 0.15s', textTransform:'capitalize',
                     border: `1px solid ${active ? dc : 'var(--rp-border)'}`,
                     background: active ? dbg : 'transparent',
                     color: active ? dc : 'var(--rp-text-faint)',
@@ -171,7 +171,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
               {shown.length} scenario{shown.length !== 1 ? 's' : ''}
             </span>
             <button onClick={onExam}
-              style={{ fontSize: 'var(--fs-tiny)', fontWeight:900, letterSpacing:'0.08em', padding:'5px 14px', borderRadius:9, border:'1px solid rgba(245,158,11,0.35)', background:'rgba(245,158,11,0.12)', color:'var(--rp-amber)', cursor:'pointer', transition:'all 0.15s', display:'inline-flex', alignItems:'center', gap:5 }}>
+              style={{ fontSize: 'var(--fs-tiny)', fontWeight:900, letterSpacing:'0.08em', padding:'5px 14px', borderRadius:2, border:'1px solid rgba(245,158,11,0.35)', background:'rgba(245,158,11,0.12)', color:'var(--rp-amber)', cursor:'pointer', transition:'all 0.15s', display:'inline-flex', alignItems:'center', gap:5 }}>
               <GraduationCap size={13} strokeWidth={2} /> EXAM
             </button>
           </div>
@@ -192,7 +192,7 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
             <button onClick={() => onStart(daily)}
               className="w-full text-left rounded-2xl border p-4 mb-4 transition-all cursor-pointer flex items-center gap-4 scenario-card"
               style={{ background: `linear-gradient(120deg,${dm.color}14,var(--rp-surface) 62%)`, borderColor: doneToday ? 'rgba(52,211,153,0.45)' : dm.border }}>
-              <div style={{ flexShrink: 0, width: 46, height: 46, borderRadius: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', color: doneToday ? 'var(--rp-green)' : dm.color, background: doneToday ? 'rgba(52,211,153,0.14)' : `${dm.color}1c`, border: `1px solid ${doneToday ? 'rgba(52,211,153,0.4)' : dm.border}` }}>
+              <div style={{ flexShrink: 0, width: 46, height: 46, borderRadius:2, display: 'flex', alignItems: 'center', justifyContent: 'center', color: doneToday ? 'var(--rp-green)' : dm.color, background: doneToday ? 'rgba(52,211,153,0.14)' : `${dm.color}1c`, border: `1px solid ${doneToday ? 'rgba(52,211,153,0.4)' : dm.border}` }}>
                 {doneToday ? <Check size={22} strokeWidth={2.5} /> : <Zap size={20} strokeWidth={2} />}
               </div>
               <div style={{ minWidth: 0, flex: 1 }}>
@@ -228,10 +228,10 @@ function Home({ onStart, progress, onExam }: { onStart:(s:Scenario)=>void; progr
                   position: 'relative', overflow: 'hidden',
                 }}>
                 {/* Category color left bar */}
-                <div style={{ position:'absolute', top:0, left:0, width:3, height:'100%', background:m.ink, opacity: done ? 0.8 : 0.35, borderRadius:'12px 0 0 12px' }}/>
+                <div style={{ position:'absolute', top:0, left:0, width:3, height:'100%', background:m.ink, opacity: done ? 0.8 : 0.35, borderRadius:'2px 0 0 2px' }}/>
                 <div style={{ paddingLeft:8 }}>
                   <div className="flex items-center justify-between mb-3">
-                    <span style={{ fontSize: 'var(--fs-micro)', fontWeight:900, letterSpacing:'0.1em', textTransform:'uppercase', padding:'3px 9px', borderRadius:999, color:m.ink, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
+                    <span style={{ fontSize: 'var(--fs-micro)', fontWeight:900, letterSpacing:'0.1em', textTransform:'uppercase', padding:'3px 9px', borderRadius:2, color:m.ink, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
                     <div className="flex items-center gap-2">
                       {trade && (
                         <span style={{ fontSize: 'var(--fs-tiny)', fontWeight:900, fontFamily:'monospace', color: trade.r >= 0 ? 'var(--rp-green)' : 'var(--rp-red)' }}>
@@ -306,12 +306,12 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
     <div style={{ background:'var(--rp-bg)', minHeight:'100vh' }}>
       {/* Nav */}
       <div style={{ background:'var(--rp-header)', borderBottom:'1px solid var(--rp-border)', padding:'10px 16px', display:'flex', alignItems:'center', gap:10, position:'sticky', top:0, zIndex:40 }}>
-        <button onClick={onBack} style={{ fontSize:11, fontWeight:700, color:'var(--rp-text-dim)', background:'var(--rp-surface-2)', border:'1px solid var(--rp-border)', borderRadius:8, padding:'5px 12px', cursor:'pointer', transition:'all 0.15s', display:'flex', alignItems:'center', gap:5 }}>
+        <button onClick={onBack} style={{ fontSize:11, fontWeight:700, color:'var(--rp-text-dim)', background:'var(--rp-surface-2)', border:'1px solid var(--rp-border)', borderRadius:2, padding:'5px 12px', cursor:'pointer', transition:'all 0.15s', display:'flex', alignItems:'center', gap:5 }}>
           ← Back
         </button>
         <span style={{ width:1, height:14, background:'var(--rp-border)', display:'inline-block' }} />
         <span style={{ fontSize: 11, color:'var(--rp-text-faint)', fontFamily:'monospace' }}>{scenario.instrument} · {scenario.timeframe} · {scenario.session}</span>
-        <span style={{ marginLeft:'auto', fontSize: 'var(--fs-micro)', fontWeight:900, textTransform:'uppercase', letterSpacing:'0.1em', padding:'3px 10px', borderRadius:999, color:m.ink, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
+        <span style={{ marginLeft:'auto', fontSize: 'var(--fs-micro)', fontWeight:900, textTransform:'uppercase', letterSpacing:'0.1em', padding:'3px 10px', borderRadius:2, color:m.ink, background:m.bg, border:`1px solid ${m.border}` }}>{m.label}</span>
         <ThemeToggle />
       </div>
 
@@ -336,7 +336,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
             <span style={{ fontSize: 'var(--fs-tiny)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', color:DIFF[scenario.difficulty] }}>{scenario.difficulty}</span>
           </div>
           {submitted && (
-            <div style={{ flexShrink:0, width:44, height:44, borderRadius:12, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'monospace', fontWeight:900, fontSize:16,
+            <div style={{ flexShrink:0, width:44, height:44, borderRadius:2, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'monospace', fontWeight:900, fontSize:16,
               background: score===4?'rgba(245,158,11,0.12)':score>=3?'rgba(52,211,153,0.1)':'var(--rp-surface-2)',
               border: `1px solid ${score===4?'rgba(245,158,11,0.35)':score>=3?'rgba(52,211,153,0.3)':'var(--rp-border)'}`,
               color: score===4?'var(--rp-amber)':score>=3?'var(--rp-green)':'var(--rp-text-dim)' }}>
@@ -346,7 +346,7 @@ function Player({ scenario, onBack, onComplete, onTrade }: {
         </div>
 
         {/* Context */}
-        <div style={{ borderRadius:16, border:`1px solid ${m.border}`, padding:'12px 14px', background:`linear-gradient(160deg,${m.color}10,var(--rp-surface) 60%)` }}>
+        <div style={{ borderRadius:2, border:`1px solid ${m.border}`, padding:'12px 14px', background:`linear-gradient(160deg,${m.color}10,var(--rp-surface) 60%)` }}>
           <p style={{ fontSize: 'var(--fs-micro)', fontWeight:900, textTransform:'uppercase', letterSpacing:'0.18em', color:m.ink, margin:'0 0 8px' }}>Context</p>
           <p style={{ fontSize: 12, color:'var(--rp-text-dim)', lineHeight:1.65, margin:'0 0 6px' }}><span style={{ color:'var(--rp-text)', fontWeight:600 }}>HTF: </span>{scenario.htfContext}</p>
           <p style={{ fontSize: 12, color:'var(--rp-text-dim)', lineHeight:1.65, margin:0 }}><span style={{ color:'var(--rp-text)', fontWeight:600 }}>Session: </span>{scenario.sessionContext}</p>
